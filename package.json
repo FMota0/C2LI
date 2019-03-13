@@ -1,0 +1,32 @@
+{
+  "name": "c2li",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UpSolv-it/C2LI.git"
+  },
+  "keywords": [
+    "CLI"
+  ],
+  "author": "UpSolv-it",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UpSolv-it/C2LI/issues"
+  },
+  "homepage": "https://github.com/UpSolv-it/C2LI#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.13.0",
+    "typescript": "^3.3.3333"
+  },
+  "devDependencies": {
+    "tslint-config-airbnb": "^5.11.1"
+  }
+}
