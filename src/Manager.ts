@@ -21,6 +21,7 @@ export class Manager{
     if (tag.match(/-(.+)-(.+)/)) {
       Manager.parser.parseProblem(tag);
     }else {
+      console.log('aqui');
       Manager.parser.parseContest(tag);
     }
   }
