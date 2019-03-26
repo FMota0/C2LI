@@ -57,7 +57,7 @@ export class Codeforces implements Parser{
         $('td.id').each(async(i, element) =>  {
           const urlProblem: string =  $(element).find('a').attr('href');
           console.log(urlProblem);
-          console.log('peguei url');
+          urls.push(this.urlBase + urlProblem);
           data[i] = await this.getTestsProblem(this.urlBase + urlProblem);
           console.log(data[i]);
         });
