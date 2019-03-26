@@ -53,7 +53,7 @@ export class Codeforces implements Parser{
       if (!error && response.statusCode === 200) {
         console.log('vo pegar o parser');
         const $ = cheerio.load(html);
-        const urls = [];
+        const urls:string = [];
         $('td.id').each(async(i, element) =>  {
           const urlProblem: string =  $(element).find('a').attr('href');
           console.log(urlProblem);
