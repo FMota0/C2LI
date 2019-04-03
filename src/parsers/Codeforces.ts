@@ -22,6 +22,7 @@ export class Codeforces implements Parser{
     const urlContest: string = '/contest';
     const finalUrl: string = this.urlBase + urlContest + urlAux;
     const data = await this.getContestProblems(finalUrl);
+    console.log("olha eu aq");
     const dataJson = JSON.stringify(data, null, 2);
     fs.writeFileSync('./data', dataJson);
   }
@@ -30,7 +31,6 @@ export class Codeforces implements Parser{
     const data = [];
     const html = await nodeFetch(url);
     const body = await html.text();
-    console.log(body);
     const $ = cheerio.load(body);
     $('div.input').each((i, element) => {
       data[i] = {
@@ -38,32 +38,24 @@ export class Codeforces implements Parser{
         output: $(element).next().find('pre').text(),
       };
     });
-    console.log(data);
     return data;
   }
 
-  public async getContestProblems(url: string): Promise<any[]> {
-    return new Promise((resolve, reject) => request(url,async (error, response, html) => {
-      console.log('to aqui');
-      const data = [];
-      if (!error && response.statusCode === 200) {
-        console.log('vo pegar o parser');
-        const $ = cheerio.load(html);
-        const urls:string = [];
-        $('td.id').each(async(i, element) =>  {
-          const urlProblem: string =  $(element).find('a').attr('href');
-          console.log(urlProblem);
-          urls.push(this.urlBase + urlProblem);
-        });
-        for (let e of urls) {
-          data.push(await this.getTestsProblem(e));
-        }
-        resolve(data);
-      } else {
-        console.log('deu errado');
-        reject();
-      }
-    }));
+  public async getContestProblems(url: string) {
+    const data = [];
+    const html = await nodeFetch(url);
+    const body = await html.text();
+    const $ = cheerio.load(body);
+    const urls = [];
+    $('td.id').each((i, element) =>  {
+      const urlProblem: string =  $(element).find('a').attr('href');
+      console.log(urlProblem);
+      urls.push(this.urlBase + urlProblem);
+    });
+    for (let e of urls) {
+      data.push(await this.getTestsProblem(e));
+    }
+    console.log(data);
+    return data;
   }
-
 }
