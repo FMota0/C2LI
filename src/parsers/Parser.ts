@@ -1,4 +1,5 @@
 export interface Parser {
-  parseProblem(): void;
-  parseContest(): void;
+  urlBase: string;
+  parseProblem(idProblem: string): void;
+  parseContest(idContest: string): void;
 }
