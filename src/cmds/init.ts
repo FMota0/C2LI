@@ -6,6 +6,6 @@ export const builder = (yargs:any) => {
   return yargs;
 };
 export const handler = (argv:any) => {
-  const manager = new Manager()
+  const manager = new Manager();
   manager.parse(argv.problem);
 };

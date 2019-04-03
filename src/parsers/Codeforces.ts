@@ -6,15 +6,15 @@ export class Codeforces implements Parser {
   urlBase = 'https://codeforces.com';
 
   public async parseProblem(idProblem: string, idContest: string): Promise<ProblemTests> {
-    const requestUrl: string = `${this.urlBase}/contest/${idContest}/problem/${idProblem}`
+    const requestUrl: string = `${this.urlBase}/contest/${idContest}/problem/${idProblem}`;
     const data = await this.getTestsProblem(requestUrl);
-    return data
+    return data;
   }
 
   public async parseContest(idContest: string): Promise<ContestTests> {
-    const contestUrl: string = `${this.urlBase}/contest/${idContest}`
+    const contestUrl: string = `${this.urlBase}/contest/${idContest}`;
     const data = await this.getContestProblems(contestUrl);
-    return data
+    return data;
   }
 
   public async getTestsProblem(url: string): Promise<ProblemTests> {
@@ -41,12 +41,12 @@ export class Codeforces implements Parser {
       const urlProblem: string =  $(element).find('a').attr('href');
       urls.push(this.urlBase + urlProblem);
     });
-    const contestTests: ContestTests = {}
+    const contestTests: ContestTests = {};
     for (const url of urls) {
       const problemTests: ProblemTests = await this.getTestsProblem(url);
-      const problemId: ProblemId = url.split('/').slice(-1)[0]
-      contestTests[problemId] = problemTests
+      const problemId: ProblemId = url.split('/').slice(-1)[0];
+      contestTests[problemId] = problemTests;
     }
-    return contestTests
+    return contestTests;
   }
 }
