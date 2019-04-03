@@ -5,25 +5,23 @@ import nodeFetch from 'node-fetch';
 export class Codeforces implements Parser {
   urlBase = 'https://codeforces.com';
 
-  public async parseProblem(idProblem: string) {
+  public async parseProblem(idProblem: string): Promise<ProblemTests> {
     const urlAux: string = idProblem.replace(/-/g, '/');
     const urlProblemSet: string = '/problemset/problem';
     const finalUrl: string = this.urlBase + urlProblemSet + urlAux;
     const data = await this.getTestsProblem(finalUrl);
-    const dataJson = JSON.stringify(data, null, 2);
-    fs.writeFileSync('./data', dataJson);
+    return data
   }
 
-  public async parseContest(idContest: string) {
+  public async parseContest(idContest: string): Promise<ContestTests> {
     const urlAux: string = idContest.replace(/-/g, '/');
     const urlContest: string = '/contest';
     const finalUrl: string = this.urlBase + urlContest + urlAux;
     const data = await this.getContestProblems(finalUrl);
-    const dataJson = JSON.stringify(data, null, 2);
-    fs.writeFileSync('./data', dataJson);
+    return data
   }
 
-  public async getTestsProblem(url: string) {
+  public async getTestsProblem(url: string): Promise<ProblemTests> {
     const data: ProblemTests = [];
     const html = await nodeFetch(url);
     const body = await html.text();
@@ -37,7 +35,7 @@ export class Codeforces implements Parser {
     return data;
   }
 
-  public async getContestProblems(url: string) {
+  public async getContestProblems(url: string): Promise<ContestTests> {
     const data: ProblemTests = [];
     const html = await nodeFetch(url);
     const body = await html.text();
@@ -45,11 +43,14 @@ export class Codeforces implements Parser {
     const urls: string[] = [];
     $('td.id').each((i, element) =>  {
       const urlProblem: string =  $(element).find('a').attr('href');
-      console.log(urlProblem);
       urls.push(this.urlBase + urlProblem);
     });
-    for (let e of urls) {
-      await this.getTestsProblem(e);
+    const contestTests: ContestTests = {}
+    for (const url of urls) {
+      const problemTests: ProblemTests = await this.getTestsProblem(url);
+      const problemId: ProblemId = url.split('/').slice(-1)[0]
+      contestTests[problemId] = problemTests
     }
+    return contestTests
   }
 }
