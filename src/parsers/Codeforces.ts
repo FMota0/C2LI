@@ -2,6 +2,7 @@ import { Parser } from './Parser';
 import cheerio from 'cheerio';
 import request from 'request';
 import fs from 'fs';
+import nodeFetch from 'node-fetch';
 
 export class Codeforces implements Parser{
   urlBase = 'https://codeforces.com';
@@ -25,25 +26,20 @@ export class Codeforces implements Parser{
     fs.writeFileSync('./data', dataJson);
   }
 
-  public getTestsProblem(url: string): Promise<any[]> {
-    return new Promise((resolve, reject) => request(url, (error, response, html) => {
-      const data = [];
-      if (!error && response.statusCode === 200) {
-        const $ = cheerio.load(html);
-        $('div.input').each((i, element) => {
-          data[i] = {
-            input: $(element).find('pre').text(),
-            output: $(element).next().find('pre').text(),
-          };
-        });
-        resolve(data);
-
-      } else {
-        console.log('deu errado');
-        reject();
-      }
-    }));
-
+  public async getTestsProblem(url: string) {
+    const data = [];
+    const html = await nodeFetch(url);
+    const body = await html.text();
+    console.log(body);
+    const $ = cheerio.load(body);
+    $('div.input').each((i, element) => {
+      data[i] = {
+        input: $(element).find('pre').text(),
+        output: $(element).next().find('pre').text(),
+      };
+    });
+    console.log(data);
+    return data;
   }
 
   public async getContestProblems(url: string): Promise<any[]> {
