@@ -24,7 +24,7 @@ export class Codeforces implements Parser {
   }
 
   public async getTestsProblem(url: string) {
-    const data = [];
+    const data: ProblemTests = [];
     const html = await nodeFetch(url);
     const body = await html.text();
     const $ = cheerio.load(body);
@@ -38,19 +38,18 @@ export class Codeforces implements Parser {
   }
 
   public async getContestProblems(url: string) {
-    const data = [];
+    const data: ProblemTests = [];
     const html = await nodeFetch(url);
     const body = await html.text();
     const $ = cheerio.load(body);
-    const urls = [];
+    const urls: string[] = [];
     $('td.id').each((i, element) =>  {
       const urlProblem: string =  $(element).find('a').attr('href');
       console.log(urlProblem);
       urls.push(this.urlBase + urlProblem);
     });
     for (let e of urls) {
-      data.push(await this.getTestsProblem(e));
+      await this.getTestsProblem(e);
     }
-    return data;
   }
 }
