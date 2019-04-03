@@ -1,6 +1,5 @@
 import { Parser } from './Parser';
 import cheerio from 'cheerio';
-import request from 'request';
 import fs from 'fs';
 import nodeFetch from 'node-fetch';
 
