@@ -1,7 +1,7 @@
-import { Parser } from './parsers/Parser';
-import { Codeforces } from './parsers/Codeforces';
+import { Codeforces } from "./parsers/Codeforces";
+import { Parser } from "./parsers/Parser";
 
-export class Manager{
+export class Manager {
   public static parser: Parser;
 
   public static parse(problem: string): void {
@@ -12,7 +12,7 @@ export class Manager{
   }
 
   public static chooseParser(prefix: string): void {
-    if (prefix === 'cf') {
+    if (prefix === "cf") {
       Manager.parser = new Codeforces();
     }
   }
@@ -20,8 +20,8 @@ export class Manager{
   public static chooseParserMode(tag: string): void {
     if (tag.match(/-(.+)-(.+)/)) {
       Manager.parser.parseProblem(tag);
-    }else {
-      console.log('aqui');
+    } else {
+      console.log("aqui");
       Manager.parser.parseContest(tag);
     }
   }
