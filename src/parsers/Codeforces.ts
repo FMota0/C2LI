@@ -7,22 +7,20 @@ import nodeFetch from 'node-fetch';
 export class Codeforces implements Parser{
   urlBase = 'https://codeforces.com';
 
-  public async parseProblem(idProblem: string):Promise<void> {
+  public async parseProblem(idProblem: string) {
     const urlAux: string = idProblem.replace(/-/g, '/');
     const urlProblemSet: string = '/problemset/problem';
     const finalUrl: string = this.urlBase + urlProblemSet + urlAux;
     const data = await this.getTestsProblem(finalUrl);
-    console.log(data);
     const dataJson = JSON.stringify(data, null, 2);
     fs.writeFileSync('./data', dataJson);
   }
 
-  public async parseContest(idContest: string): Promise<void> {
+  public async parseContest(idContest: string) {
     const urlAux: string = idContest.replace(/-/g, '/');
     const urlContest: string = '/contest';
     const finalUrl: string = this.urlBase + urlContest + urlAux;
     const data = await this.getContestProblems(finalUrl);
-    console.log("olha eu aq");
     const dataJson = JSON.stringify(data, null, 2);
     fs.writeFileSync('./data', dataJson);
   }
@@ -55,7 +53,6 @@ export class Codeforces implements Parser{
     for (let e of urls) {
       data.push(await this.getTestsProblem(e));
     }
-    console.log(data);
     return data;
   }
 }
