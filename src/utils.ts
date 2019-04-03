@@ -23,3 +23,15 @@ export const writeProblemTests = (tags: string[], problemTests: ProblemTests, di
 
   fs.writeFileSync(testsDirectory + `/.tests.json`, JSON.stringify(problemTests))
 }
+
+const TESTS_FILE = './.tests.json'
+
+export const readProblemTests = (): ProblemTests => {
+  if(!fs.existsSync(TESTS_FILE)) {
+    return []
+  }
+
+  const raw = fs.readFileSync(TESTS_FILE, "utf8")
+  const tests = JSON.parse(raw) as ProblemTests
+  return tests
+}
