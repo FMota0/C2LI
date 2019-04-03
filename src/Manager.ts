@@ -1,27 +1,35 @@
 import { Codeforces } from './parsers/Codeforces';
+import TestWriter from './TestWriter'
 
 export class Manager{
-  public static parser: Parser;
+  public parser: Parser;
+  public writer: TestWriter;
 
-  public static parse(problem: string): void {
+  constructor(){
+    this.parser = new Codeforces()
+    this.writer = new TestWriter()
+  }
+
+  public parse(problem: string) {
     const prefix: string = problem.slice(0, 2);
     this.chooseParser(prefix);
     const tagProblem: string = problem.slice(2);
     this.chooseParserMode(tagProblem);
   }
 
-  public static chooseParser(prefix: string): void {
+  public chooseParser(prefix: string) {
     if (prefix === 'cf') {
-      Manager.parser = new Codeforces();
+      this.parser = new Codeforces();
     }
   }
 
-  public static chooseParserMode(tag: string): void {
+  public async chooseParserMode(tag: string) {
     if (tag.match(/-(.+)-(.+)/)) {
-      Manager.parser.parseProblem(tag);
-    }else {
+      const problemTests: ProblemTests = await this.parser.parseProblem(tag)
+      this.writer.writeProblemTests(tag, problemTests);
+    } else {
       console.log('aqui');
-      Manager.parser.parseContest(tag);
+      await this.parser.parseContest(tag);
     }
   }
 
