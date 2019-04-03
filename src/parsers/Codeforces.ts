@@ -1,9 +1,8 @@
-import { Parser } from './Parser';
 import cheerio from 'cheerio';
 import fs from 'fs';
 import nodeFetch from 'node-fetch';
 
-export class Codeforces implements Parser{
+export class Codeforces implements Parser {
   urlBase = 'https://codeforces.com';
 
   public async parseProblem(idProblem: string) {

@@ -1,4 +1,3 @@
-import { Parser } from './parsers/Parser';
 import { Codeforces } from './parsers/Codeforces';
 
 export class Manager{
