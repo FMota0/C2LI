@@ -41,12 +41,24 @@ export class Codeforces implements Parser {
       const urlProblem: string =  $(element).find('a').attr('href');
       urls.push(this.urlBase + urlProblem);
     });
-    const contestTests: ContestTests = {};
-    for (const url of urls) {
-      const problemTests: ProblemTests = await this.getTestsProblem(url);
+    const problemsPromises = urls.map(url => {
       const problemId: ProblemId = url.split('/').slice(-1)[0];
-      contestTests[problemId] = problemTests;
-    }
+      return new Promise<[ProblemTests, ProblemId]>(
+        (resolve, reject) => {
+          this
+          .getTestsProblem(url)
+          .then(
+            (problemTests: ProblemTests) => resolve([problemTests, problemId])
+          )
+          .catch(
+            reject
+          );
+        }
+      );
+    });
+    const contestTests: ContestTests = {};
+    const promisesResults: Array<[ProblemTests, ProblemId]> = await Promise.all(problemsPromises);
+    promisesResults.forEach((result) => contestTests[result[1]] = result[0]);
     return contestTests;
   }
 }
