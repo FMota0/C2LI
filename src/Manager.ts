@@ -1,13 +1,11 @@
 import { Codeforces } from './parsers/Codeforces';
-import TestWriter from './TestWriter'
+import { writeContestTests, writeProblemTests } from './utils'
 
 class Manager {
   public parser: Parser;
-  public writer: TestWriter;
 
   constructor(){
     this.parser = new Codeforces();
-    this.writer = new TestWriter();
   }
 
   public parse(code: string) {
@@ -28,10 +26,10 @@ class Manager {
   public async chooseParserMode(tags: string[]) {
     if (tags.length === 3) {
       const problemTests: ProblemTests = await this.parser.parseProblem(tags[2], tags[1]);
-      this.writer.writeProblemTests(tags, problemTests);
+      writeProblemTests(tags, problemTests);
     } else {
       const contestTests: ContestTests = await this.parser.parseContest(tags[1]);
-      this.writer.writeContestTests(tags, contestTests);
+      writeContestTests(tags, contestTests);
     }
   }
 }
