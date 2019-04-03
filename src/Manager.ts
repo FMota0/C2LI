@@ -1,20 +1,22 @@
 import { Codeforces } from './parsers/Codeforces';
 import TestWriter from './TestWriter'
 
-export class Manager{
+class Manager {
   public parser: Parser;
   public writer: TestWriter;
 
   constructor(){
-    this.parser = new Codeforces()
-    this.writer = new TestWriter()
+    this.parser = new Codeforces();
+    this.writer = new TestWriter();
   }
 
-  public parse(problem: string) {
-    const prefix: string = problem.slice(0, 2);
-    this.chooseParser(prefix);
-    const tagProblem: string = problem.slice(2);
-    this.chooseParserMode(tagProblem);
+  public parse(code: string) {
+    const tags: string[] = code.split('-');
+    if (tags.length < 2 || tags.length > 3) {
+      throw new Error('Invalid code of parsing');
+    }
+    this.chooseParser(tags[0]);
+    this.chooseParserMode(tags);
   }
 
   public chooseParser(prefix: string) {
@@ -23,14 +25,15 @@ export class Manager{
     }
   }
 
-  public async chooseParserMode(tag: string) {
-    if (tag.match(/-(.+)-(.+)/)) {
-      const problemTests: ProblemTests = await this.parser.parseProblem(tag)
-      this.writer.writeProblemTests(tag, problemTests);
+  public async chooseParserMode(tags: string[]) {
+    if (tags.length === 3) {
+      const problemTests: ProblemTests = await this.parser.parseProblem(tags[2], tags[1]);
+      this.writer.writeProblemTests(tags, problemTests);
     } else {
-      console.log('aqui');
-      await this.parser.parseContest(tag);
+      const contestTests: ContestTests = await this.parser.parseContest(tags[1]);
+      this.writer.writeContestTests(tags, contestTests);
     }
   }
-
 }
+
+export default Manager

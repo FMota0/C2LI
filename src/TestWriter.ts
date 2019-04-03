@@ -2,12 +2,13 @@ import fs from 'fs'
 
 class TestWriter {
 
-  public writeContestTests (contestTests: ContestTests) {
-
+  public writeContestTests (tags: string[], contestTests: ContestTests) {
+    console.log(tags, contestTests)
   }
 
-  public writeProblemTests (problemId: string, problemTests: ProblemTests) {
-    fs.writeFileSync(`./${problemId}.json`, JSON.stringify(problemTests))
+  public writeProblemTests (tags: string[], problemTests: ProblemTests) {
+    // fs.writeFileSync(`./A/${problemId}.json`, JSON.stringify(problemTests))
+    console.log(tags, problemTests)
   }
 }
 

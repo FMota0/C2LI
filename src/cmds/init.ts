@@ -1,4 +1,4 @@
-import { Manager } from '../Manager';
+import Manager from '../Manager';
 
 export const command: string = ('init <problem>');
 export const desc: string = ('parse a problem');

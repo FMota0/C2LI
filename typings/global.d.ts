@@ -11,6 +11,6 @@ type ContestTests = Record<ProblemId, ProblemTests>
 
 interface Parser {
   urlBase: string;
-  parseProblem: (idProblem: string) => Promise<ProblemTests>;
+  parseProblem: (idProblem: string, idcontest: string) => Promise<ProblemTests>;
   parseContest: (idContest: string) => Promise<ContestTests>;
 }
