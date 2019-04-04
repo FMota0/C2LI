@@ -23,7 +23,7 @@ export class Codeforces implements Parser {
     const body = await html.text();
     const $ = cheerio.load(body);
     $('div.input').each((i, element) => {
-      $(element).find('br').replaceWith('\n')
+      $(element).find('br').replaceWith('\n');
       data[i] = {
         input: $(element).find('pre').text(),
         output: $(element).next().find('pre').text(),
@@ -42,24 +42,24 @@ export class Codeforces implements Parser {
       const urlProblem: string =  $(element).find('a').attr('href');
       urls.push(this.urlBase + urlProblem);
     });
-    const problemsPromises = urls.map(url => {
+    const problemsPromises = urls.map((url) => {
       const problemId: ProblemId = url.split('/').slice(-1)[0];
       return new Promise<[ProblemTests, ProblemId]>(
         (resolve, reject) => {
           this
           .getTestsProblem(url)
           .then(
-            (problemTests: ProblemTests) => resolve([problemTests, problemId])
+            (problemTests: ProblemTests) => resolve([problemTests, problemId]),
           )
           .catch(
-            reject
+            reject,
           );
-        }
+        },
       );
     });
     const contestTests: ContestTests = {};
-    const promisesResults: Array<[ProblemTests, ProblemId]> = await Promise.all(problemsPromises);
-    promisesResults.forEach((result) => contestTests[result[1]] = result[0]);
+    const promisesResults: [ProblemTests, ProblemId][] = await Promise.all(problemsPromises);
+    promisesResults.forEach(result => contestTests[result[1]] = result[0]);
     return contestTests;
   }
 }

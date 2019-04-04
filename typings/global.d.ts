@@ -1,13 +1,13 @@
 interface ProblemTest {
-  input: string
-  output: string
+  input: string;
+  output: string;
 }
 
-type ProblemTests = ProblemTest[]
+type ProblemTests = ProblemTest[];
 
-type ProblemId = string
+type ProblemId = string;
 
-type ContestTests = Record<ProblemId, ProblemTests>
+type ContestTests = Record<ProblemId, ProblemTests>;
 
 interface Parser {
   urlBase: string;

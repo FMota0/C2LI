@@ -1,10 +1,10 @@
 import { Codeforces } from './parsers/Codeforces';
-import { writeContestTests, writeProblemTests } from './utils'
+import { writeContestTests, writeProblemTests } from './utils';
 
 class Manager {
   public parser: Parser;
 
-  constructor(){
+  constructor() {
     this.parser = new Codeforces();
   }
 
@@ -34,4 +34,4 @@ class Manager {
   }
 }
 
-export default Manager
+export default Manager;
