@@ -10,12 +10,9 @@ class CPP implements Tester {
     writeFileSync(`tmp_in${id}`, test.input)
     execSync(`./program <tmp_in${id} >tmp_out${id}`)
     const output = readFileSync(`tmp_out${id}`, 'utf-8')
-    let isMatching = true
-    if(output.trim() !== test.output.trim()) {
-      isMatching = false
-    }
     return {
-      isMatching,
+      expectedOutput: test.output,
+      input: test.input,
       output,
     }
   }

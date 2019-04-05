@@ -15,10 +15,7 @@ interface Parser {
   parseContest: (idContest: string) => Promise<ContestTests>;
 }
 
-interface ExecutionResult {
-  isMatching: boolean;
-  output: string;
-}
+type ExecutionResult = ProblemTest & { expectedOutput: string; };
 
 interface Tester {
   beforeAll: () => void;
