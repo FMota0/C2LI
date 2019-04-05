@@ -22,7 +22,7 @@ export const writeProblemTests = (tags: string[],
   if (!fs.existsSync(testsDirectory)) {
     fs.mkdirSync(testsDirectory);
   }
-  const fileName: string = './tests.json';
+  const fileName: string = '/.tests.json';
   fs.writeFileSync(testsDirectory + fileName, JSON.stringify(problemTests));
 };
 
