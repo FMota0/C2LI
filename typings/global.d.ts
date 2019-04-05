@@ -22,6 +22,6 @@ interface ExecutionResult {
 
 interface Tester {
   beforeAll: () => void;
-  execute: (x: ProblemTests) => ExecutionResult;
+  execute: (id: string, x: ProblemTest) => ExecutionResult;
   afterAll: () => void;
 }
