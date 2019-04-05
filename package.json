@@ -5,7 +5,8 @@
   "main": "src/app.ts",
   "scripts": {
     "start": "ts-node --files ./src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tslint src/**/*.ts typings/**/*.ts"
   },
   "repository": {
     "type": "git",
