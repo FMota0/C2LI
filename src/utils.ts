@@ -29,8 +29,8 @@ export const writeProblemTests = (tags: string[],
 const TESTS_FILE = './.tests.json';
 
 export const hasTests = (): boolean => {
-  return fs.existsSync(TESTS_FILE)
-}
+  return fs.existsSync(TESTS_FILE);
+};
 
 export const readProblemTests = (): ProblemTests => {
   if (!hasTests()) {
