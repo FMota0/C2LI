@@ -1,5 +1,5 @@
 import { Codeforces } from './parsers/Codeforces';
-import { writeContestTests, writeProblemTests } from './utils';
+import { writeContestTests, writeProblemTests, readProblemTests, addProblemTest, writeNewProblemsTest } from './utils';
 
 class Manager {
   public parser: Parser;
@@ -31,6 +31,14 @@ class Manager {
       const contestTests: ContestTests = await this.parser.parseContest(tags[1]);
       writeContestTests(tags, contestTests);
     }
+  }
+
+  public addTest(newTest: ProblemTest) {
+    let problemTests:ProblemTests = readProblemTests();
+    console.log(newTest);
+    problemTests = addProblemTest(problemTests, newTest);
+    console.log(problemTests);
+    writeNewProblemsTest(problemTests);
   }
 }
 
