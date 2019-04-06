@@ -1,5 +1,4 @@
 import cheerio from 'cheerio';
-import fs from 'fs';
 import nodeFetch from 'node-fetch';
 
 export class Codeforces implements Parser {
