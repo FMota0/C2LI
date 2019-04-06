@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/UpSolv-it/C2LI#readme",
   "dependencies": {
-    "@types/inquirer": "^6.0.0",
     "cheerio": "^1.0.0-rc.2",
     "inquirer": "^6.2.2",
     "node-fetch": "^2.3.0",
@@ -32,6 +31,7 @@
     "yargs": "^13.2.2"
   },
   "devDependencies": {
+    "@types/inquirer": "^6.0.0",
     "@types/cheerio": "^0.22.11",
     "@types/node": "^11.13.0",
     "@types/node-fetch": "^2.1.7",
