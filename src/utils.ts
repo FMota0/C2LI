@@ -1,4 +1,4 @@
-import fs, { mkdir } from 'fs';
+import fs from 'fs';
 
 export const writeContestTests = (tags: string[], contestTests: ContestTests) => {
   if (!fs.existsSync(tags[1])) {
@@ -41,18 +41,3 @@ export const readProblemTests = (): ProblemTests => {
   const tests = JSON.parse(raw) as ProblemTests;
   return tests;
 };
-
-export const addProblemTest = (problemTests:ProblemTests, newTest:ProblemTest) => {
-  problemTests.push(newTest);
-  return problemTests;
-};
-
-export const writeNewProblemsTest = (problemTests:ProblemTests) => {
-  const data = JSON.stringify(problemTests);
-  if (!hasTests()){
-    const testsDirectory: string = './newTests';
-    fs.mkdirSync(testsDirectory);
-    fsw
-  }
-  fs.writeFileSync(TESTS_FILE, data);
-}
