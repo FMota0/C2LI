@@ -41,3 +41,12 @@ export const readProblemTests = (): ProblemTests => {
   const tests = JSON.parse(raw) as ProblemTests;
   return tests;
 };
+
+export const addProblemTest = (problemTests:ProblemTests, newTest:ProblemTest) => {
+  problemTests.push(newTest);
+  return problemTests;
+};
+
+export const writeNewProblemsTest = (problemTests:ProblemTests) => {
+  fs.writeFileSync(TESTS_FILE, JSON.stringify(problemTests));
+};
