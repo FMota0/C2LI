@@ -14,3 +14,11 @@ interface Parser {
   parseProblem: (idProblem: string, idcontest: string) => Promise<ProblemTests>;
   parseContest: (idContest: string) => Promise<ContestTests>;
 }
+
+type ExecutionResult = ProblemTest & { expectedOutput: string; };
+
+interface Tester {
+  beforeAll: () => void;
+  execute: (id: string, x: ProblemTest) => ExecutionResult;
+  afterAll: () => void;
+}
