@@ -1,18 +1,17 @@
 import cheerio from 'cheerio';
-import fs from 'fs';
 import nodeFetch from 'node-fetch';
 
-export class Codeforces implements Parser {
-  urlBase = 'https://codeforces.com';
+class Codeforces implements Parser {
+  baseUrl = 'https://codeforces.com';
 
   public async parseProblem(idProblem: string, idContest: string): Promise<ProblemTests> {
-    const requestUrl: string = `${this.urlBase}/contest/${idContest}/problem/${idProblem}`;
+    const requestUrl: string = `${this.baseUrl}/contest/${idContest}/problem/${idProblem}`;
     const data = await this.getTestsProblem(requestUrl);
     return data;
   }
 
   public async parseContest(idContest: string): Promise<ContestTests> {
-    const contestUrl: string = `${this.urlBase}/contest/${idContest}`;
+    const contestUrl: string = `${this.baseUrl}/contest/${idContest}`;
     const data = await this.getContestProblems(contestUrl);
     return data;
   }
@@ -40,7 +39,7 @@ export class Codeforces implements Parser {
     const urls: string[] = [];
     $('td.id').each((i, element) =>  {
       const urlProblem: string =  $(element).find('a').attr('href');
-      urls.push(this.urlBase + urlProblem);
+      urls.push(this.baseUrl + urlProblem);
     });
     const problemsPromises = urls.map((url) => {
       const problemId: ProblemId = url.split('/').slice(-1)[0];
@@ -63,3 +62,5 @@ export class Codeforces implements Parser {
     return contestTests;
   }
 }
+
+export default Codeforces;
