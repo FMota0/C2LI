@@ -1,7 +1,7 @@
 import cheerio from 'cheerio';
 import nodeFetch from 'node-fetch';
 
-export class Codeforces implements Parser {
+class Codeforces implements Parser {
   baseUrl = 'https://codeforces.com';
 
   public async parseProblem(idProblem: string, idContest: string): Promise<ProblemTests> {
@@ -62,3 +62,5 @@ export class Codeforces implements Parser {
     return contestTests;
   }
 }
+
+export default Codeforces;

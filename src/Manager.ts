@@ -1,12 +1,12 @@
-import { Codeforces } from './parsers/Codeforces';
+import parsers from './parsers'
 import { writeContestTests, writeProblemTests,
   readProblemTests, addProblemTest, writeNewProblemsTest } from './utils';
 
 class Manager {
-  public parser: Parser;
+  public parser: Parser | null;
 
   constructor() {
-    this.parser = new Codeforces();
+    this.parser = null;
   }
 
   public parse(code: string) {
@@ -19,17 +19,15 @@ class Manager {
   }
 
   public chooseParser(prefix: string) {
-    if (prefix === 'cf') {
-      this.parser = new Codeforces();
-    }
+    this.parser = parsers[prefix]
   }
 
   public async chooseParserMode(tags: string[]) {
     if (tags.length === 3) {
-      const problemTests: ProblemTests = await this.parser.parseProblem(tags[2], tags[1]);
+      const problemTests: ProblemTests = await this.parser!.parseProblem(tags[2], tags[1]);
       writeProblemTests(tags, problemTests);
     } else {
-      const contestTests: ContestTests = await this.parser.parseContest(tags[1]);
+      const contestTests: ContestTests = await this.parser!.parseContest(tags[1]);
       writeContestTests(tags, contestTests);
     }
   }
