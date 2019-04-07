@@ -5,7 +5,24 @@ class AtCoder implements Parser {
   baseUrl = 'https://atcoder.jp';
 
   public async parseProblem(problemId: string, contestId: string): Promise<ProblemTests> {
-    return Promise.resolve([]);
+    const response = await fetch(this.buildProblemUrl(problemId, contestId));
+    const html = await response.text();
+    const $ = cheerio.load(html);
+    const tests: ProblemTests = [];
+    $('.io-style .part').removeClass();
+    const pre: string[] = [];
+    $('.lang-en .part section pre').each((_, element) => {
+      pre.push($(element).text());
+    });
+    pre.forEach((_, i) => {
+      if (i%2 == 0) {
+        tests[i/2] = {
+          input: pre[i],
+          output: pre[i+1],
+        }
+      }
+    });
+    return tests
   }
 
   public async parseContest(contestId: string): Promise<ContestTests> {
@@ -38,6 +55,10 @@ class AtCoder implements Parser {
     const promisesResults: [ProblemTests, ProblemId][] = await Promise.all(problemsPromises);
     promisesResults.forEach(result => contestTests[result[1]] = result[0])
     return contestTests;
+  }
+
+  public buildProblemUrl(problemId: string, contestId: string): string {
+    return `${this.buildContestUrl(contestId)}/${problemId}`
   }
 
   public buildContestUrl(contestId: string): string {
