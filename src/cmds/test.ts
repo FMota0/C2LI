@@ -1,18 +1,18 @@
-import Cpp from '../testers/Cpp';
+import testers from '../testers';
 import { hasTests, readProblemTests } from '../utils';
 
-export const command: string = 'test';
+export const command: string = 'test <testerOpt>';
 export const desc: string = 'Test code against samples';
-export const handler = () => {
+export const handler = ({ testerOpt = 'cpp' }: { testerOpt?: string }) => {
   if (!hasTests()) {
     console.log('No tests in current directory');
     return;
   }
-  const cpp: Tester = new Cpp();
+  const tester: Tester = testers[testerOpt];
   const tests: ProblemTests = readProblemTests();
-  cpp.beforeAll();
-  const results = tests.map((test: ProblemTest, i) => cpp.execute(`${i}`, test));
-  cpp.afterAll();
+  tester.beforeAll();
+  const results = tests.map((test: ProblemTest, i) => tester.execute(`${i}`, test));
+  tester.afterAll();
   for (const i in results) {
     if (results[i].expectedOutput.trim() !== results[i].output.trim()) {
       console.log(`Wrong answer for test ${i}`);
