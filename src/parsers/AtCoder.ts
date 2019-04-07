@@ -1,11 +1,11 @@
 import cheerio from 'cheerio';
-import fetch from 'node-fetch';
+import nodeFetch from 'node-fetch';
 
 class AtCoder implements Parser {
   baseUrl = 'https://atcoder.jp';
 
   public async parseProblem(problemId: string, contestId: string): Promise<ProblemTests> {
-    const response = await fetch(this.buildProblemUrl(problemId, contestId));
+    const response = await nodeFetch(this.buildProblemUrl(problemId, contestId));
     const html = await response.text();
     const $ = cheerio.load(html);
     const tests: ProblemTests = [];
@@ -15,23 +15,23 @@ class AtCoder implements Parser {
       pre.push($(element).text());
     });
     pre.forEach((_, i) => {
-      if (i%2 == 0) {
-        tests[i/2] = {
+      if (i % 2 === 0) {
+        tests[i / 2] = {
           input: pre[i],
-          output: pre[i+1],
-        }
+          output: pre[i + 1],
+        };
       }
     });
-    return tests
+    return tests;
   }
 
   public async parseContest(contestId: string): Promise<ContestTests> {
-    const response = await fetch(this.buildContestUrl(contestId));
+    const response = await nodeFetch(this.buildContestUrl(contestId));
     const html = await response.text();
     const $ = cheerio.load(html);
     const problemIds: string[] = [];
     $('tbody tr td a').each((i, element) => {
-      if(i%2 == 0) {
+      if (i % 2 === 0) {
         const url = $(element).attr('href');
         const problemId = url.split('/').slice(-1)[0];
         problemIds.push(problemId);
@@ -49,16 +49,16 @@ class AtCoder implements Parser {
             reject,
           );
         },
-      )
+      );
     });
     const contestTests: ContestTests = {};
     const promisesResults: [ProblemTests, ProblemId][] = await Promise.all(problemsPromises);
-    promisesResults.forEach(result => contestTests[result[1]] = result[0])
+    promisesResults.forEach(result => contestTests[result[1]] = result[0]);
     return contestTests;
   }
 
   public buildProblemUrl(problemId: string, contestId: string): string {
-    return `${this.buildContestUrl(contestId)}/${problemId}`
+    return `${this.buildContestUrl(contestId)}/${problemId}`;
   }
 
   public buildContestUrl(contestId: string): string {

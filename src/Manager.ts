@@ -1,4 +1,4 @@
-import parsers from './parsers'
+import parsers from './parsers';
 import { writeContestTests, writeProblemTests,
   readProblemTests, addProblemTest, writeNewProblemsTest } from './utils';
 
@@ -19,7 +19,7 @@ class Manager {
   }
 
   public chooseParser(prefix: string) {
-    this.parser = parsers[prefix]
+    this.parser = parsers[prefix];
   }
 
   public async chooseParserMode(tags: string[]) {

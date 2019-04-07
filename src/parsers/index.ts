@@ -1,9 +1,9 @@
-import AtCoder from './AtCoder'
-import Codeforces from './Codeforces'
+import AtCoder from './AtCoder';
+import Codeforces from './Codeforces';
 
 const parsers: Record<string, Parser> = {
-  'atc': new AtCoder(),
-  'cf': new Codeforces(),
-}
+  atc: new AtCoder(),
+  cf: new Codeforces(),
+};
 
-export default parsers
+export default parsers;
