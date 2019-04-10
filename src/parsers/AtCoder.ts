@@ -1,10 +1,12 @@
 import cheerio from 'cheerio';
 import nodeFetch from 'node-fetch';
 
-class AtCoder implements Parser {
+import Parser from './Parser';
+
+class AtCoder extends Parser {
   baseUrl = 'https://atcoder.jp';
 
-  public async parseProblem(problemId: string, contestId: string): Promise<ProblemTests> {
+  public parseProblem = async (problemId: string, contestId: string): Promise<ProblemTests> => {
     const response = await nodeFetch(this.buildProblemUrl(problemId, contestId));
     const html = await response.text();
     const $ = cheerio.load(html);
@@ -25,7 +27,7 @@ class AtCoder implements Parser {
     return tests;
   }
 
-  public async parseContest(contestId: string): Promise<ContestTests> {
+  public getContestProblems = async (contestId: string): Promise<string[]> => {
     const response = await nodeFetch(this.buildContestUrl(contestId));
     const html = await response.text();
     const $ = cheerio.load(html);
@@ -37,31 +39,14 @@ class AtCoder implements Parser {
         problemIds.push(problemId);
       }
     });
-    const problemsPromises = problemIds.map((problemId) => {
-      return new Promise<[ProblemTests, ProblemId]>(
-        (resolve, reject) => {
-          this
-          .parseProblem(problemId, contestId)
-          .then(
-            (problemTests: ProblemTests) => resolve([problemTests, problemId]),
-          )
-          .catch(
-            reject,
-          );
-        },
-      );
-    });
-    const contestTests: ContestTests = {};
-    const promisesResults: [ProblemTests, ProblemId][] = await Promise.all(problemsPromises);
-    promisesResults.forEach(result => contestTests[result[1]] = result[0]);
-    return contestTests;
+    return problemIds;
   }
 
-  public buildProblemUrl(problemId: string, contestId: string): string {
+  public buildProblemUrl = (problemId: string, contestId: string): string => {
     return `${this.buildContestUrl(contestId)}/${problemId}`;
   }
 
-  public buildContestUrl(contestId: string): string {
+  public buildContestUrl = (contestId: string): string => {
     return `${this.baseUrl}/contests/${contestId}/tasks`;
   }
 }
