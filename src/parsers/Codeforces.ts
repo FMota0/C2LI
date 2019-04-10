@@ -34,21 +34,6 @@ class Codeforces extends Parser {
     return problemIds;
   }
 
-  public async getTestsProblem(url: string): Promise<ProblemTests> {
-    const data: ProblemTests = [];
-    const html = await nodeFetch(url);
-    const body = await html.text();
-    const $ = cheerio.load(body);
-    $('div.input').each((i, element) => {
-      $(element).find('br').replaceWith('\n');
-      data[i] = {
-        input: $(element).find('pre').text(),
-        output: $(element).next().find('pre').text(),
-      };
-    });
-    return data;
-  }
-
   public buildProblemUrl = (problemId: string, contestId: string): string => {
     return `${this.buildContestUrl(contestId)}/problem/${problemId}`;
   }
