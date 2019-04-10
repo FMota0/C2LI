@@ -1,3 +1,5 @@
+import cliTable from 'cli-table';
+
 import testers from '../testers';
 import { hasTests, readProblemTests } from '../utils';
 
@@ -13,17 +15,23 @@ export const handler = ({ testerOpt = 'cpp' }: { testerOpt?: string }) => {
   tester.beforeAll();
   const results = tests.map((test: ProblemTest, i) => tester.execute(`${i}`, test));
   tester.afterAll();
-  for (const i in results) {
-    if (results[i].expectedOutput.trim() !== results[i].output.trim()) {
-      console.log(`Wrong answer for test ${i}`);
-      console.log('INPUT:');
-      console.log(results[i].input);
-      console.log('EXPECTED:');
-      console.log(results[i].expectedOutput);
-      console.log('OUTPUT:');
-      console.log(results[i].output);
-    } else {
-      console.log(`Correct answer for test ${i}`);
+  const table = new cliTable(
+    {
+      head: [
+        'Test',
+        'Verdict',
+        'Input',
+        'Output',
+        'Expected output',
+      ],
+    },
+  );
+  results.forEach((result: ExecutionResult, i) => {
+    let verdict = 'Correct';
+    if (result.expectedOutput.trim() !== result.output.trim()) {
+      verdict = 'Incorrect';
     }
-  }
+    table.push([`#${i}`, verdict, result.input, result.output, result.expectedOutput])
+  })
+  console.log(table.toString())
 };
