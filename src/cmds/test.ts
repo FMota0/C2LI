@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import cliTable from 'cli-table';
 
 import testers from '../testers';
@@ -27,9 +28,9 @@ export const handler = ({ testerOpt = 'cpp' }: { testerOpt?: string }) => {
     },
   );
   results.forEach((result: ExecutionResult, i) => {
-    let verdict = 'Correct';
+    let verdict = chalk.green('Correct');
     if (result.expectedOutput.trim() !== result.output.trim()) {
-      verdict = 'Incorrect';
+      verdict = chalk.red('Incorrect');
     }
     table.push([`#${i}`, verdict, result.input, result.output, result.expectedOutput])
   })
