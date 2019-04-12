@@ -5,17 +5,22 @@ import yargs from 'yargs';
 import testers from '../testers';
 import { hasTests, readProblemTests } from '../utils';
 
-export const command: string = 'test <testerOpt>';
+export const command: string = 'test [tester]';
 export const desc: string = 'Test code against samples';
 export const builder = (yargs: yargs.Argv) => {
-  return yargs.options({
-    l: {
-      alias: 'lean',
-      boolean: true,
-      describe: 'Show lean table',
-      default: false,
-    },
-  });
+  return yargs
+        .options({
+          l: {
+            alias: 'lean',
+            boolean: true,
+            describe: 'Show lean table',
+            default: false,
+          },
+        })
+        .positional('tester', {
+          describe: 'Tester to be used while testing code',
+          default: 'cpp',
+        });
 };
 
 const LEAN_TABLE_CONFIG = {
@@ -26,7 +31,17 @@ const LEAN_TABLE_CONFIG = {
   style: { 'padding-left': 0, 'padding-right': 0 },
 };
 
-export const handler = ({ testerOpt = 'cpp', lean }: { testerOpt?: string, lean: boolean }) => {
+interface TestArgs {
+  tester: string;
+  lean: boolean;
+}
+
+export const handler = (
+    {
+      tester: testerOpt,
+      lean,
+    }: TestArgs,
+  ) => {
   if (!hasTests()) {
     console.log('No tests in current directory');
     return;
