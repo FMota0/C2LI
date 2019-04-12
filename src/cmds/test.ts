@@ -20,6 +20,7 @@ export const builder = (yargs: yargs.Argv) => {
         .positional('tester', {
           describe: 'Tester to be used while testing code',
           default: 'cpp',
+          type: 'string',
         });
 };
 
