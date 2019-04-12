@@ -2,7 +2,7 @@
 import yargs from 'yargs';
 
 yargs
-.usage('Usage: cli-crud <command> [options]')
+.usage('Usage: c2li <command> [options]')
 .commandDir('cmds', {
   extensions:['ts', 'js'],
 })
