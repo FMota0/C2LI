@@ -2,6 +2,8 @@ import parsers from './parsers';
 import { writeContestTests, writeProblemTests,
   readProblemTests, addProblemTest, writeNewProblemsTest } from './utils';
 
+import Parser from './parsers/Parser';
+
 class Manager {
   public parser: Parser | null;
 
