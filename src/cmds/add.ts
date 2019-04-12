@@ -1,10 +1,10 @@
 import inquirer from 'inquirer';
 
-import { 
-  addProblemTest, 
+import {
+  addProblemTest,
   readProblemTests,
   writeNewProblemsTest,
-} from '../utils'
+} from '../utils';
 
 export const command: string = 'add';
 export const desc: string = 'add tests for a specific problem';

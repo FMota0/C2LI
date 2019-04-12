@@ -1,22 +1,24 @@
 import fs from 'fs';
 
-export const writeContestTests = (tags: string[], contestTests: ContestTests) => {
-  if (!fs.existsSync(tags[1])) {
-    fs.mkdirSync(tags[1]);
+import parsers from './parsers';
+
+export const writeContestTests = (contestId: string, contestTests: ContestTests) => {
+  if (!fs.existsSync(contestId)) {
+    fs.mkdirSync(contestId);
   }
 
   const problems = Object.keys(contestTests);
-  problems.forEach(problem => writeProblemTests(['', '', problem], contestTests[problem], tags[1]));
+  problems.forEach(problem => writeProblemTests(problem, contestTests[problem], contestId));
 };
 
-export const writeProblemTests = (tags: string[],
+export const writeProblemTests = (problemId: string,
                                   problemTests: ProblemTests,
                                   directory?: string) => {
   let testsDirectory = null;
   if (directory) {
-    testsDirectory = `./${directory}/${tags[2]}`;
+    testsDirectory = `./${directory}/${problemId}`;
   } else {
-    testsDirectory = `./${tags[1] + tags[2]}`;
+    testsDirectory = `./${problemId}`;
   }
 
   if (!fs.existsSync(testsDirectory)) {
@@ -49,4 +51,16 @@ export const addProblemTest = (problemTests:ProblemTests, newTest:ProblemTest) =
 
 export const writeNewProblemsTest = (problemTests:ProblemTests) => {
   fs.writeFileSync(TESTS_FILE, JSON.stringify(problemTests));
+};
+
+export const parseContest = async (judge: string, contestId: string) => {
+  const parser = parsers[judge];
+  const contestTests: ContestTests = await parser.parseContest(contestId);
+  writeContestTests(contestId, contestTests);
+};
+
+export const parseProblem = async (judge: string, contestId: string, problemId: string) => {
+  const parser = parsers[judge];
+  const problemTests: ProblemTests = await parser.parseProblem(problemId, contestId);
+  writeProblemTests(contestId + problemId, problemTests);
 };
