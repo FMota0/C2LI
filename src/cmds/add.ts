@@ -1,11 +1,14 @@
 import inquirer from 'inquirer';
 
-import Manager from '../Manager';
+import { 
+  addProblemTest, 
+  readProblemTests,
+  writeNewProblemsTest,
+} from '../utils'
 
-export const command:string = 'add';
-export const desc:string = 'add tests for a specific problem';
+export const command: string = 'add';
+export const desc: string = 'add tests for a specific problem';
 export const handler = () => {
-  const manager = new Manager();
   const question = [
     {
       type: 'input',
@@ -19,8 +22,10 @@ export const handler = () => {
     },
   ];
   inquirer
-          .prompt(question)
-          .then((answers) => {
-            manager.addTest(<ProblemTest> answers);
-          });
+    .prompt(question)
+    .then((newTest) => {
+      let problemTests: ProblemTests = readProblemTests();
+      problemTests = addProblemTest(problemTests, newTest as ProblemTest);
+      writeNewProblemsTest(problemTests);
+    });
 };
