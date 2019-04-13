@@ -10,18 +10,25 @@ export const command: string = 'add';
 export const desc: string = 'add tests for a specific problem';
 export const handler = () => {
   const manager = new Manager();
-  const endLine:string = '\n';
   const newTest:ProblemTest = {
     input : '',
     output: '',
   };
   console.log('Type the input of the new test');
+  newTest.input = read();
+  console.log('Type the output of the new test');
+  newTest.output = read();
+  manager.addTest(newTest);
+};
+
+const read = () => {
+  let result:string = '';
   while (true) {
     const answer:string = readlineSync.prompt();
+    const endLine:string = '\n';
     if (answer === '') {
-      console.log(newTest);
-      break;
+      return result;
     }
-    newTest.input += answer + endLine;
+    result += answer + endLine;
   }
 };
