@@ -28,12 +28,14 @@
     "configstore": "^4.0.0",
     "inquirer": "^6.2.2",
     "node-fetch": "^2.3.0",
+    "readline-sync": "^1.4.9",
     "ts-node": "^8.0.2",
     "tslint": "^5.13.0",
     "typescript": "^3.3.3333",
     "yargs": "^13.2.2"
   },
   "devDependencies": {
+    "@types/readline-sync": "^1.4.3",
     "@types/cheerio": "^0.22.11",
     "@types/cli-table": "^0.3.0",
     "@types/configstore": "^4.0.0",
