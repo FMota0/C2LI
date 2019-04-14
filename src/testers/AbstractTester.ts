@@ -3,7 +3,7 @@ import { spawnSync } from "child_process";
 abstract class AbstractTester implements Tester {
   public abstract beforeAll: () => void;
   public abstract afterAll: () => void;
-  public execute(id: string, test: ProblemTest): ExecutionResult {
+  public execute(_: string, test: ProblemTest): ExecutionResult {
     const start = new Date().getTime();
     const { command, args } = this.getExecutionCommand();
     const result = spawnSync(command, args, {
@@ -12,15 +12,18 @@ abstract class AbstractTester implements Tester {
     });
     const end = new Date().getTime();
     const executionTime = (end - start)/1000;
+    let timedOut = false;
     if (result.error) {
-      console.log(result.error);
-      process.exit(0);
+      // @ts-ignore
+      if (result.error.code === 'ETIMEDOUT') {
+        timedOut = true;
+      }
     }
     return {
       input: test.input,
       expectedOutput: test.output,
       output: result.stdout.toString(),
-      timedOut: false,
+      timedOut,
       executionTime,
     };
   };
