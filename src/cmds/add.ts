@@ -27,7 +27,7 @@ const read = () => {
     const answer:string = readlineSync.prompt();
     const endLine:string = '\n';
     if (answer === '') {
-      return result;
+      return result.slice(0, result.length - 1);
     }
     result += answer + endLine;
   }
