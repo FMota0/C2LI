@@ -22,9 +22,9 @@ abstract class AbstractTester implements Tester {
       output: result.stdout.toString(),
       timedOut: false,
       executionTime,
-    }
+    };
   };
   public abstract getExecutionCommand: () => ExecutionCommand;
 }
 
-export default AbstractTester
+export default AbstractTester;
