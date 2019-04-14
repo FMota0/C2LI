@@ -1,4 +1,4 @@
-import { spawnSync } from "child_process";
+import { spawnSync } from 'child_process';
 
 abstract class AbstractTester implements Tester {
   public abstract beforeAll: () => void;
@@ -11,7 +11,7 @@ abstract class AbstractTester implements Tester {
       timeout: 1000,
     });
     const end = new Date().getTime();
-    const executionTime = (end - start)/1000;
+    const executionTime = (end - start) / 1000;
     let timedOut = false;
     let runtimeError = false;
     if (result.error) {
@@ -19,18 +19,19 @@ abstract class AbstractTester implements Tester {
       if (result.error.code === 'ETIMEDOUT') {
         timedOut = true;
       }
-    } else if(result.status !== 0) {
+    } else if (result.status !== 0) {
       runtimeError = true;
     }
     return {
-      input: test.input,
-      expectedOutput: test.output,
-      output: result.stdout.toString(),
       timedOut,
       runtimeError,
       executionTime,
+      input: test.input,
+      expectedOutput: test.output,
+      output: result.stdout.toString(),
     };
-  };
+  }
+
   public abstract getExecutionCommand: () => ExecutionCommand;
 }
 

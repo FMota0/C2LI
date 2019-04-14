@@ -39,7 +39,7 @@ export const handler = ({ testerOpt = 'cpp', lean }: { testerOpt?: string, lean:
   const head = [
     'Test',
     'Verdict',
-    'Time (ms)'
+    'Time (ms)',
   ];
   if (!lean) {
     head.push('Input');
@@ -56,7 +56,7 @@ export const handler = ({ testerOpt = 'cpp', lean }: { testerOpt?: string, lean:
     let verdict = chalk.green('Correct');
     if (result.timedOut) {
       verdict = chalk.blueBright('TLE');
-    } else if(result.runtimeError) {
+    } else if (result.runtimeError) {
       verdict = chalk.yellow('RTE');
     } else if (result.expectedOutput.trim() !== result.output.trim()) {
       verdict = chalk.red('Incorrect');
