@@ -39,6 +39,7 @@ export const handler = ({ testerOpt = 'cpp', lean }: { testerOpt?: string, lean:
   const head = [
     'Test',
     'Verdict',
+    'Time (ms)'
   ];
   if (!lean) {
     head.push('Input');
@@ -53,10 +54,12 @@ export const handler = ({ testerOpt = 'cpp', lean }: { testerOpt?: string, lean:
   );
   results.forEach((result: ExecutionResult, i) => {
     let verdict = chalk.green('Correct');
-    if (result.expectedOutput.trim() !== result.output.trim()) {
+    if (result.timedOut) {
+      verdict = chalk.blueBright('TLE');
+    } else if (result.expectedOutput.trim() !== result.output.trim()) {
       verdict = chalk.red('Incorrect');
     }
-    const line = [`#${i}`, verdict];
+    const line = [`#${i}`, verdict, result.executionTime];
     if (!lean) {
       line.push(result.input);
       line.push(result.output);
