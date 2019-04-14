@@ -17,6 +17,7 @@ interface ExecutionCommand {
 interface ExecutionResult extends ProblemTest {
   expectedOutput: string;
   timedOut: boolean;
+  runtimeError: boolean;
   executionTime: number;
 }
 
