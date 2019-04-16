@@ -9,7 +9,17 @@ type ProblemId = string;
 
 type ContestTests = Record<ProblemId, ProblemTests>;
 
-type ExecutionResult = ProblemTest & { expectedOutput: string; };
+interface ExecutionCommand {
+  command: string;
+  args: string[];
+}
+
+interface ExecutionResult extends ProblemTest {
+  expectedOutput: string;
+  timedOut: boolean;
+  runtimeError: boolean;
+  executionTime: number;
+}
 
 interface Tester {
   beforeAll: () => void;
