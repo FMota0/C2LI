@@ -12,17 +12,17 @@ interface CreateArgs {
 }
 
 export const command: string = 'create <name>';
-export const desc: string = 'parse a problem';
+export const desc: string = 'Create directory structure for adding tests';
 
 export const builder = (yargs: yargs.Argv) => {
   return yargs
           .positional('name', {
-            describe: 'Directory to be created',
+            describe: 'Name of directory to be created',
             type: 'string',
           })
           .option('p', {
             alias: 'problems',
-            describe: 'Number of problems, if the directory should represent a contest',
+            describe: 'Number of problems, if the directory shgould represent a contest',
             type: 'number',
             default: 0,
           });
