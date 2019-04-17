@@ -1,9 +1,9 @@
 abstract class Parser {
   baseUrl: string = '';
-  public abstract buildProblemUrl: (problemId: string, contestId: string) => string;
+  public abstract buildProblemUrl: (problemId: string, contestId?: string) => string;
   public abstract buildContestUrl: (contestId: string) => string;
   public abstract getContestProblems: (contestId: string) => Promise<string[]>;
-  public abstract parseProblem: (problemId: string, contestId: string) => Promise<ProblemTests>;
+  public abstract parseProblem: (problemId: string, contestId?: string) => Promise<ProblemTests>;
   public async parseContest(contestId: string): Promise<ContestTests> {
     const problemIds: string[] = await this.getContestProblems(contestId);
     const problemsPromises = problemIds.map((problemId) => {

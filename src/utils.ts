@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import fs from 'fs';
 
 import parsers from './parsers';
@@ -59,8 +60,15 @@ export const parseContest = async (judge: string, contestId: string) => {
   writeContestTests(contestId, contestTests);
 };
 
-export const parseProblem = async (judge: string, contestId: string, problemId: string) => {
+export const parseProblem = async (judge: string, problemId: string) => {
   const parser = parsers[judge];
-  const problemTests: ProblemTests = await parser.parseProblem(problemId, contestId);
-  writeProblemTests(contestId + problemId, problemTests);
+  const problemTests: ProblemTests = await parser.parseProblem(problemId);
+  writeProblemTests(judge + problemId, problemTests);
 };
+
+export const handleInvalidContestId = (contestId: string | undefined) => {
+  if (!contestId) {
+    console.log(chalk.red('Not possible to get problem using only problemId'));
+    process.exit(0);
+  }
+}

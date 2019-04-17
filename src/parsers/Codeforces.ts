@@ -1,12 +1,14 @@
+import chalk from 'chalk';
 import cheerio from 'cheerio';
 import nodeFetch from 'node-fetch';
 
 import Parser from './Parser';
+import { handleInvalidContestId } from '../utils';
 
 class Codeforces extends Parser {
   baseUrl = 'https://codeforces.com';
 
-  public parseProblem = async (problemId: string, contestId: string): Promise<ProblemTests> => {
+  public parseProblem = async (problemId: string, contestId?: string): Promise<ProblemTests> => {
     const response = await nodeFetch(this.buildProblemUrl(problemId, contestId));
     const html = await response.text();
     const $ = cheerio.load(html);
@@ -34,8 +36,9 @@ class Codeforces extends Parser {
     return problemIds;
   }
 
-  public buildProblemUrl = (problemId: string, contestId: string): string => {
-    return `${this.buildContestUrl(contestId)}/problem/${problemId}`;
+  public buildProblemUrl = (problemId: string, contestId?: string): string => {
+    handleInvalidContestId(contestId);
+    return `${this.buildContestUrl(contestId!)}/problem/${problemId}`;
   }
 
   public buildContestUrl = (contestId: string): string => {
