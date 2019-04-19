@@ -54,16 +54,16 @@ export const writeNewProblemsTest = (problemTests:ProblemTests) => {
   fs.writeFileSync(TESTS_FILE, JSON.stringify(problemTests));
 };
 
-export const parseContest = async (judge: string, contestId: string) => {
-  const parser = parsers[judge];
+export const parseContest = async (chosenParser: string, contestId: string) => {
+  const parser = parsers[chosenParser];
   const contestTests: ContestTests = await parser.parseContest(contestId);
   writeContestTests(contestId, contestTests);
 };
 
-export const parseProblem = async (judge: string, problemId: string) => {
-  const parser = parsers[judge];
+export const parseProblem = async (chosenParser: string, problemId: string) => {
+  const parser = parsers[chosenParser];
   const problemTests: ProblemTests = await parser.parseProblem(problemId);
-  writeProblemTests(judge + problemId, problemTests);
+  writeProblemTests(chosenParser + problemId, problemTests);
 };
 
 export const handleInvalidContestId = (contestId: string | undefined) => {
