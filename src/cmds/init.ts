@@ -43,11 +43,11 @@ export const handler = (
     parser,
     contestId,
     problemId,
-  }: InitArgs
+  }: InitArgs,
 ) => {
   if (type === 'contest') {
     parseContest(parser, contestId);
   } else {
     parseProblem(parser, problemId);
   }
-}
+};

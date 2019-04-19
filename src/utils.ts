@@ -12,6 +12,8 @@ export const writeContestTests = (contestId: string, contestTests: ContestTests)
   problems.forEach(problem => writeProblemTests(problem, contestTests[problem], contestId));
 };
 
+const tests2string = (tests: ProblemTests) => JSON.stringify(tests, null, 2);
+
 export const writeProblemTests = (problemId: string,
                                   problemTests: ProblemTests,
                                   directory?: string) => {
@@ -26,7 +28,7 @@ export const writeProblemTests = (problemId: string,
     fs.mkdirSync(testsDirectory);
   }
   const fileName: string = '/.tests.json';
-  fs.writeFileSync(testsDirectory + fileName, JSON.stringify(problemTests));
+  fs.writeFileSync(testsDirectory + fileName, tests2string(problemTests));
 };
 
 const TESTS_FILE = './.tests.json';
@@ -51,7 +53,7 @@ export const addProblemTest = (problemTests:ProblemTests, newTest:ProblemTest) =
 };
 
 export const writeNewProblemsTest = (problemTests:ProblemTests) => {
-  fs.writeFileSync(TESTS_FILE, JSON.stringify(problemTests));
+  fs.writeFileSync(TESTS_FILE, tests2string(problemTests));
 };
 
 export const parseContest = async (chosenParser: string, contestId: string) => {
