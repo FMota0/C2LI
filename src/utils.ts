@@ -73,4 +73,4 @@ export const handleInvalidContestId = (contestId: string | undefined) => {
     console.log(chalk.red('Not possible to get problem using only problemId'));
     process.exit(0);
   }
-}
+};
