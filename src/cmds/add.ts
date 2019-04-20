@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import readlineSync from 'readline-sync';
 
 import {
   addProblemTest,
@@ -9,23 +9,27 @@ import {
 export const command: string = 'add';
 export const desc: string = 'add tests for a specific problem';
 export const handler = () => {
-  const question = [
-    {
-      type: 'input',
-      name : 'input',
-      message:'Type the input of the new tests',
-    },
-    {
-      type:'input',
-      name:'output',
-      message:'type the expected output of the new tests',
-    },
-  ];
-  inquirer
-    .prompt(question)
-    .then((newTest) => {
-      let problemTests: ProblemTests = readProblemTests();
-      problemTests = addProblemTest(problemTests, newTest as ProblemTest);
-      writeNewProblemsTest(problemTests);
-    });
+  const newTest:ProblemTest = {
+    input : '',
+    output: '',
+  };
+  console.log('Type the input of the new test');
+  newTest.input = read();
+  console.log('Type the output of the new test');
+  newTest.output = read();
+  let problemTests:ProblemTests = readProblemTests();
+  problemTests = addProblemTest(problemTests, newTest);
+  writeNewProblemsTest(problemTests);
+};
+
+const read = () => {
+  let result:string = '';
+  while (true) {
+    const answer:string = readlineSync.prompt();
+    const endLine:string = '\n';
+    if (answer === '') {
+      return result.slice(0, result.length - 1);
+    }
+    result += answer + endLine;
+  }
 };
