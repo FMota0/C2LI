@@ -2,11 +2,12 @@ import cheerio from 'cheerio';
 import nodeFetch from 'node-fetch';
 
 import Parser from './Parser';
+import { handleInvalidContestId } from '../utils';
 
 class AtCoder extends Parser {
   baseUrl = 'https://atcoder.jp';
 
-  public parseProblem = async (problemId: string, contestId: string): Promise<ProblemTests> => {
+  public parseProblem = async (problemId: string, contestId?: string): Promise<ProblemTests> => {
     const response = await nodeFetch(this.buildProblemUrl(problemId, contestId));
     const html = await response.text();
     const $ = cheerio.load(html);
@@ -42,8 +43,9 @@ class AtCoder extends Parser {
     return problemIds;
   }
 
-  public buildProblemUrl = (problemId: string, contestId: string): string => {
-    return `${this.buildContestUrl(contestId)}/${problemId}`;
+  public buildProblemUrl = (problemId: string, contestId?: string): string => {
+    handleInvalidContestId(contestId);
+    return `${this.buildContestUrl(contestId!)}/${problemId}`;
   }
 
   public buildContestUrl = (contestId: string): string => {

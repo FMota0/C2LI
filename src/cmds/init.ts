@@ -1,45 +1,53 @@
 import yargs from 'yargs';
 
-import {
-  parseProblem,
-  parseContest,
-} from '../utils';
+import { parseContest, parseProblem } from '../utils';
 
-interface InitArgs {
-  judge: string;
-  contest: string;
-  problem?: string;
-}
-
-export const command: string = 'init <judge> <contest> [problem]';
-export const desc: string = 'parse a problem';
+export const command: string = 'init <type> <parser> <contestId|problemId>';
+export const desc: string = 'Init a directory structure';
 
 export const builder = (yargs: yargs.Argv) => {
   return yargs
-          .positional('judge', {
-            describe: 'Judge',
-            type: 'string',
-          })
-          .positional('contest', {
-            describe: 'Contest id',
-            type: 'string',
-          })
-          .positional('problem', {
-            describe: 'Problem id',
-            type: 'string',
-          });
+            .positional('type', {
+              describe: 'Specify if should be initialized contest or problem',
+              type: 'string',
+              choices: [
+                'contest',
+                'problem',
+              ],
+            })
+            .positional('parser', {
+              describe: 'Parser to be used',
+              type: 'string',
+              choices: [
+                'cf',
+                'cfg',
+                'atc',
+              ],
+            })
+            .positional('contestId|problemId', {
+              describe: 'Id that represents contest or problem',
+              type: 'string',
+            });
 };
+
+interface InitArgs {
+  type: string;
+  parser: string;
+  contestId: string;
+  problemId: string;
+}
 
 export const handler = (
   {
-    judge,
-    contest,
-    problem,
+    type,
+    parser,
+    contestId,
+    problemId,
   }: InitArgs,
 ) => {
-  if (problem) {
-    parseProblem(judge, contest, problem);
+  if (type === 'contest') {
+    parseContest(parser, contestId);
   } else {
-    parseContest(judge, contest);
+    parseProblem(parser, problemId);
   }
 };
