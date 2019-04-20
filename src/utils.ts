@@ -31,18 +31,18 @@ export const writeProblemTests = (problemId: string,
   fs.writeFileSync(testsDirectory + fileName, tests2string(problemTests));
 };
 
-const TESTS_FILE = './.tests.json';
+const TESTS_FILE = '.tests.json';
 
-export const hasTests = (): boolean => {
-  return fs.existsSync(TESTS_FILE);
+export const hasTests = (path: string = './'): boolean => {
+  return fs.existsSync(`${path}/${TESTS_FILE}`);
 };
 
-export const readProblemTests = (): ProblemTests => {
-  if (!hasTests()) {
+export const readProblemTests = (path: string = './'): ProblemTests => {
+  if (!hasTests(path)) {
     return [];
   }
 
-  const raw = fs.readFileSync(TESTS_FILE, 'utf8');
+  const raw = fs.readFileSync(`${path}/${TESTS_FILE}`, 'utf8');
   const tests = JSON.parse(raw) as ProblemTests;
   return tests;
 };

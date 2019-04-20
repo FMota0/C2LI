@@ -16,6 +16,11 @@ export const builder = (yargs: yargs.Argv) => {
             describe: 'Show lean table',
             default: false,
           },
+          t: {
+            alias: 'testsPath',
+            type: 'string',
+            describe: 'Path to tests, by default the tests gonna be searched in current directory',
+          },
         })
         .positional('tester', {
           describe: 'Tester to be used while testing code',
@@ -34,21 +39,23 @@ const LEAN_TABLE_CONFIG = {
 
 interface TestArgs {
   tester: string;
+  testsPath: string;
   lean: boolean;
 }
 
 export const handler = (
     {
       tester: testerOpt,
+      testsPath,
       lean,
     }: TestArgs,
   ) => {
-  if (!hasTests()) {
-    console.log('No tests in current directory');
+  if (!hasTests(testsPath)) {
+    console.log(`No tests in ${testsPath}`);
     return;
   }
   const tester: Tester = testers[testerOpt];
-  const tests: ProblemTests = readProblemTests();
+  const tests: ProblemTests = readProblemTests(testsPath);
   tester.beforeAll();
   const results = tests.map((test: ProblemTest, i) => tester.execute(`${i}`, test));
   tester.afterAll();
