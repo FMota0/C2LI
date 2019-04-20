@@ -9,7 +9,6 @@ import {
 export const command: string = 'add';
 export const desc: string = 'add tests for a specific problem';
 export const handler = () => {
-  const manager = new Manager();
   const newTest:ProblemTest = {
     input : '',
     output: '',
@@ -18,7 +17,9 @@ export const handler = () => {
   newTest.input = read();
   console.log('Type the output of the new test');
   newTest.output = read();
-  manager.addTest(newTest);
+  let problemTests:ProblemTests = readProblemTests();
+  problemTests = addProblemTest(problemTests, newTest);
+  writeNewProblemsTest(problemTests);
 };
 
 const read = () => {
