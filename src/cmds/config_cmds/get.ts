@@ -16,12 +16,12 @@ export const builder = (yargs: yargs.Argv) => {
             desc: 'Variable to be set',
             choices: Object.keys(getters),
           });
-}
+};
 
 export const handler = (
   {
     key,
-  }: GetArgs
+  }: GetArgs,
 ) => {
   console.log(getters[key]());
 };

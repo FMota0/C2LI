@@ -21,7 +21,7 @@ export const builder = (yargs: yargs.Argv) => {
             type: 'string',
             desc: 'Value that variable should receive',
           });
-}
+};
 
 export const handler = (
   {
