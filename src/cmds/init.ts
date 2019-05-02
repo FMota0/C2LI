@@ -22,6 +22,7 @@ export const builder = (yargs: yargs.Argv) => {
                 'cf',
                 'cfg',
                 'atc',
+                'uri',
               ],
             })
             .positional('contestId|problemId', {
