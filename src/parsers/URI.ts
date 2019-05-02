@@ -33,9 +33,8 @@ class AtCoder extends Parser {
   public buildProblemUrl = (problemId: string, contestId?: string): string => {
     if (!contestId) {
       return `${this.baseUrl}/repository/UOJ_${problemId}.html`;
-    } else {
-      throw new Error('Unhandled operation');
     }
+    throw new Error('Unhandled operation');
   }
 
   public buildContestUrl = (contestId: string): string => {

@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import cheerio from 'cheerio';
 import nodeFetch from 'node-fetch';
 
