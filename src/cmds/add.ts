@@ -25,7 +25,7 @@ export const handler = () => {
 const read = () => {
   let result:string = '';
   while (true) {
-    const answer:string = readlineSync.prompt();
+    const answer:string = readlineSync.prompt({prompt: ''});
     const endLine:string = '\n';
     if (answer === '') {
       return result.slice(0, result.length - 1);
