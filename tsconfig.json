@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "es2017",                       
     "module": "commonjs",                     
-    "strict": true,                           
+    "strict": true,    
+    "outDir": "./dist", 
     "esModuleInterop": true,
     "sourceMap": true                
   },
@@ -11,6 +12,7 @@
     "./**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }
