@@ -1,10 +1,11 @@
-import { spawnSync } from 'child_process';
+import { spawnSync, spawn } from 'child_process';
 
 import { DEFAULT_TIMEOUT_MS } from './constants';
 
 abstract class AbstractTester implements Tester {
   public abstract beforeAll: () => void;
   public abstract afterAll: () => void;
+  
   public execute(_: string, test: ProblemTest): ExecutionResult {
     const start = new Date().getTime();
     const { command, args } = this.getExecutionCommand();
@@ -32,6 +33,14 @@ abstract class AbstractTester implements Tester {
       expectedOutput: test.output,
       output: result.stdout.toString(),
     };
+  }
+
+  public spawn() {
+    this.beforeAll();
+    const { command, args } = this.getExecutionCommand();
+    spawn(command, args, {
+      stdio: 'inherit',
+    });
   }
 
   public abstract getExecutionCommand: () => ExecutionCommand;
