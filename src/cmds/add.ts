@@ -1,4 +1,5 @@
 import readlineSync from 'readline-sync';
+import yargs from 'yargs';
 
 import {
   addProblemTest,
@@ -8,15 +9,37 @@ import {
 
 export const command: string = 'add';
 export const desc: string = 'add tests for a specific problem';
-export const handler = () => {
-  const newTest:ProblemTest = {
+
+interface AddArgs {
+  'no-out': boolean;
+}
+
+export const builder = (yargs: yargs.Argv) => {
+  return yargs
+          .options({
+            n: {
+              alias: 'no-out',
+              boolean: true,
+              describe: 'Add test with unknown output',
+              default: false,
+            }
+          });
+};
+
+export const handler = (
+  {
+    'no-out': inputOnly,
+  }: AddArgs,
+) => {
+  const newTest: ProblemTest = {
     input : '',
-    output: '',
   };
   console.log('Type the input of the new test');
   newTest.input = read();
-  console.log('Type the output of the new test');
-  newTest.output = read();
+  if (!inputOnly) {
+    console.log('Type the output of the new test');
+    newTest.output = read();
+  }
   let problemTests:ProblemTests = readProblemTests();
   problemTests = addProblemTest(problemTests, newTest);
   writeNewProblemsTest(problemTests);
