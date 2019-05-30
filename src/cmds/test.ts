@@ -4,6 +4,7 @@ import yargs from 'yargs';
 
 import testers from '../testers';
 import { hasTests, readProblemTests } from '../utils';
+import { getTesterOption } from '../testers/utils';
 
 export const command: string = 'test [tester]';
 export const desc: string = 'Test code against samples';
@@ -21,11 +22,6 @@ export const builder = (yargs: yargs.Argv) => {
             type: 'string',
             describe: 'Path to tests, by default the tests gonna be searched in current directory',
           },
-        })
-        .positional('tester', {
-          describe: 'Tester to be used while testing code',
-          default: 'cpp',
-          type: 'string',
         });
 };
 
@@ -38,20 +34,23 @@ const LEAN_TABLE_CONFIG = {
 };
 
 interface TestArgs {
-  tester: string;
   testsPath: string;
   lean: boolean;
 }
 
 export const handler = (
     {
-      tester: testerOpt,
       testsPath,
       lean,
     }: TestArgs,
   ) => {
   if (!hasTests(testsPath)) {
     console.log(`No tests in ${testsPath}`);
+    return;
+  }
+  const testerOpt = getTesterOption();
+  if (!testerOpt) {
+    console.log(chalk.red('NO CODE FOUND'));
     return;
   }
   const tester: Tester = testers[testerOpt];

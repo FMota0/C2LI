@@ -1,4 +1,5 @@
 import AbstractTester from './AbstractTester';
+import { getFileNameBySuffix } from './utils';
 
 class Python extends AbstractTester {
   public beforeAll = () => null;
@@ -8,7 +9,9 @@ class Python extends AbstractTester {
   public getExecutionCommand = () => {
     return {
       command: 'python',
-      args: ['p.py'],
+      args: [
+        getFileNameBySuffix('.py')!,
+      ],
     };
   }
 }
