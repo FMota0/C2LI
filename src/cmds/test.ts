@@ -65,8 +65,8 @@ export const handler = (
   ];
   if (!lean) {
     head.push('Input');
-    head.push('Output');
     head.push('Expected output');
+    head.push('Your output');
   }
   const table = new cliTable(
     {
@@ -80,14 +80,16 @@ export const handler = (
       verdict = chalk.blueBright('TLE');
     } else if (result.runtimeError) {
       verdict = chalk.yellow('RTE');
-    } else if (result.expectedOutput.trim() !== result.output.trim()) {
+    } else if (!result.output) {
+      verdict = chalk.gray('UNKNOWN');
+    } else if (result.executionOutput.trim() !== result.output.trim()) {
       verdict = chalk.red('Incorrect');
     }
     const line = [`#${i}`, verdict, result.executionTime];
     if (!lean) {
       line.push(result.input);
-      line.push(result.output);
-      line.push(result.expectedOutput);
+      line.push(result.output || '');
+      line.push(result.executionOutput);
     }
     table.push(line);
   });

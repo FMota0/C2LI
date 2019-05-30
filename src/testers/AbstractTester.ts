@@ -30,8 +30,8 @@ abstract class AbstractTester implements Tester {
       runtimeError,
       executionTime,
       input: test.input,
-      expectedOutput: test.output,
-      output: result.stdout.toString(),
+      output: test.output,
+      executionOutput: result.stdout.toString(),
     };
   }
 

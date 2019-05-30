@@ -1,6 +1,6 @@
 interface ProblemTest {
   input: string;
-  output: string;
+  output?: string;
 }
 
 type ProblemTests = ProblemTest[];
@@ -15,7 +15,7 @@ interface ExecutionCommand {
 }
 
 interface ExecutionResult extends ProblemTest {
-  expectedOutput: string;
+  executionOutput: string;
   timedOut: boolean;
   runtimeError: boolean;
   executionTime: number;
