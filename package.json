@@ -4,9 +4,14 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "start": "ts-node --files ./src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "tslint 'src/**/*.ts' 'typings/**/*.ts'"
+    "lint": "tslint 'src/**/*.ts' 'typings/**/*.ts'",
+    "build": "tsc"
+  },
+  "bin": {
+    "c2li": "./dist/app.js"
   },
   "repository": {
     "type": "git",
