@@ -5,7 +5,7 @@ import { DEFAULT_TIMEOUT_MS } from './constants';
 abstract class AbstractTester implements Tester {
   public abstract beforeAll: () => void;
   public abstract afterAll: () => void;
-  
+
   public execute(_: string, test: ProblemTest): ExecutionResult {
     const start = new Date().getTime();
     const { command, args } = this.getExecutionCommand();

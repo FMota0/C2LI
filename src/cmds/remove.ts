@@ -9,7 +9,7 @@ export const desc: string = 'Remove a test case';
 
 interface RemoveArgs {
   caseId: number;
-};
+}
 
 export const builder = (yargs: yargs.Argv) => {
   return yargs
@@ -21,9 +21,9 @@ export const builder = (yargs: yargs.Argv) => {
 export const handler = (
   {
     caseId,
-  }: RemoveArgs
+  }: RemoveArgs,
 ) => {
-  let problemTests: ProblemTests = readProblemTests();
+  const problemTests: ProblemTests = readProblemTests();
   if (caseId < 0 || caseId >= problemTests.length) {
     console.log(chalk.red('INVALID CASE ID'));
     return;
