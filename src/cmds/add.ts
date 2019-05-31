@@ -22,7 +22,7 @@ export const builder = (yargs: yargs.Argv) => {
               boolean: true,
               describe: 'Add test with unknown output',
               default: false,
-            }
+            },
           });
 };
 
