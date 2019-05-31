@@ -1,6 +1,6 @@
 import { spawnSync, spawn } from 'child_process';
 
-import { getTimeLimit } from '../conf'
+import { getTimeLimit } from '../conf';
 
 abstract class AbstractTester implements Tester {
   public abstract beforeAll: () => void;
