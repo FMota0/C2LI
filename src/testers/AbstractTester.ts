@@ -1,6 +1,6 @@
 import { spawnSync, spawn } from 'child_process';
 
-import { DEFAULT_TIMEOUT_MS } from './constants';
+import { getTimeLimit } from '../conf'
 
 abstract class AbstractTester implements Tester {
   public abstract beforeAll: () => void;
@@ -11,7 +11,7 @@ abstract class AbstractTester implements Tester {
     const { command, args } = this.getExecutionCommand();
     const result = spawnSync(command, args, {
       input: test.input,
-      timeout: DEFAULT_TIMEOUT_MS,
+      timeout: getTimeLimit(),
     });
     const end = new Date().getTime();
     const executionTime = (end - start) / 1000;
