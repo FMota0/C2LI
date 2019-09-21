@@ -2,6 +2,8 @@ import chalk from 'chalk';
 import fs from 'fs';
 
 import parsers from './parsers';
+import { getTemplatePath } from './conf';
+import { getFileValidSuffix } from './testers/utils';
 
 export const writeContestTests = (contestId: string, contestTests: ContestTests) => {
   if (!fs.existsSync(contestId)) {
@@ -9,14 +11,15 @@ export const writeContestTests = (contestId: string, contestTests: ContestTests)
   }
 
   const problems = Object.keys(contestTests);
-  problems.forEach(problem => writeProblemTests(problem, contestTests[problem], contestId));
+  problems.forEach((problem, i) => writeProblemTests(problem, contestTests[problem], contestId, i));
 };
 
 const tests2string = (tests: ProblemTests) => JSON.stringify(tests, null, 2);
 
 export const writeProblemTests = (problemId: string,
                                   problemTests: ProblemTests,
-                                  directory?: string) => {
+                                  directory?: string,
+                                  index?: number) => {
   let testsDirectory = null;
   if (directory) {
     testsDirectory = `./${directory}/${problemId}`;
@@ -29,6 +32,12 @@ export const writeProblemTests = (problemId: string,
   }
   const fileName: string = '/.tests.json';
   fs.writeFileSync(testsDirectory + fileName, tests2string(problemTests));
+
+  const templatePath = getTemplatePath();
+  if (templatePath && fs.existsSync(templatePath)) {
+    const sourceName: string = `/${String.fromCharCode(97 + (index || 0))}.${getFileValidSuffix(templatePath)}`;
+    fs.writeFileSync(testsDirectory + sourceName, fs.readFileSync(templatePath));
+  }
 };
 
 const TESTS_FILE = '.tests.json';
