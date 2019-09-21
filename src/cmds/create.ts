@@ -41,7 +41,7 @@ export const handler = (
 
   if (problems > 0) {
     const contestTests: ContestTests = {};
-    Array(problems).fill(0).forEach((_, i) => contestTests[i] = []);
+    Array(problems).fill(0).forEach((_, i) => contestTests[String.fromCharCode(i + 65)] = []);
     writeContestTests(name, contestTests);
   } else {
     writeProblemTests(name, []);
