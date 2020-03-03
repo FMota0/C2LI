@@ -1,7 +1,7 @@
 import cheerio from 'cheerio';
 import nodeFetch from 'node-fetch';
 
-import Parser from './parser';
+import parser from './parser';
 
 class Codeforces extends Parser {
   baseUrl = 'https://codeforces.com';

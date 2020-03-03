@@ -1,7 +1,7 @@
 import AtCoder from './AtCoder';
 import Codeforces from './Codeforces';
 import CodeforcesGym from './CodeforcesGym';
-import Parser from './parser';
+import parser from './parser';
 import Kattis from './Kattis';
 
 const parsers: Record<string, Parser> = {

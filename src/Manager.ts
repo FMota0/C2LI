@@ -2,7 +2,7 @@ import parsers from './parsers';
 import { writeContestTests, writeProblemTests,
   readProblemTests, addProblemTest, writeNewProblemsTest } from './utils';
 
-import Parser from './parsers/parser';
+import parser from './parsers/parser';
 
 class Manager {
   public parser: Parser | null;
@@ -23,7 +23,7 @@ class Manager {
   public chooseParser(prefix: string) {
     this.parser = parsers[prefix];
   }
-  
+
   public async chooseParserMode(tags: string[]) {
     if (tags.length === 3) {
       const problemTests: ProblemTests = await this.parser!.parseProblem(tags[2], tags[1]);

@@ -1,7 +1,7 @@
 import cheerio from 'cheerio';
 import nodeFetch from 'node-fetch';
 
-import Parser from './parser';
+import parser from './parser';
 
 class AtCoder extends Parser {
   baseUrl = 'https://atcoder.jp';
