@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import nodeFetch from 'node-fetch';
-import Parser from "./parser";
+import parser from './parser';
 
 class Kattis extends Parser {
   baseUrl = 'https://open.kattis.com';
@@ -11,18 +11,18 @@ class Kattis extends Parser {
     const tests: ProblemTests = [];
     let problemTest: ProblemTest = {
       input: '',
-      output: ''
-    }
+      output: '',
+    };
     $('pre').each((i, element) => {
       if (i % 2 == 0) {
         problemTest = { input: $(element).text(), output: '' };
       }
       else {
-        problemTest = { input: problemTest.input, output: $(element).text() }
+        problemTest = { input: problemTest.input, output: $(element).text() };
         tests[Math.floor(i / 2)] = problemTest;
         problemTest = { input: '', output: '' };
       }
-    })
+    });
     return tests;
   }
 
@@ -35,8 +35,8 @@ class Kattis extends Parser {
       const data = $(trElement).find('td');
       const url = $(data).find('a').attr('href');
       const problemId = url.split('/').slice(-1)[0];
-      problemIds.push(problemId)
-    })
+      problemIds.push(problemId);
+    });
     return problemIds;
   }
 
