@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 
-import testers from '../testers';
+import testerBuilder from '../testers';
 
 export const command: string = 'pre-test [tester]';
 export const desc: string = 'Execute beforeAll tester scrips';
@@ -23,6 +23,6 @@ export const handler = (
     tester: testerOpt,
   }: PreTestArgs,
 ) => {
-  const tester = testers[testerOpt];
+  const tester = testerBuilder(testerOpt as TesterSuffix);
   tester.beforeAll();
 };

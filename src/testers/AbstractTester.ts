@@ -1,8 +1,20 @@
-import { spawnSync, spawn } from 'child_process';
+import { spawnSync, spawn, ChildProcess } from 'child_process';
 
 import { getTimeLimit } from '../conf';
+import { getFileNameBySuffix } from './utils';
 
 abstract class AbstractTester implements Tester {
+  public child: ChildProcess | null = null;
+  public suffix: TesterSuffix;
+  public path?: string;
+  public bin: string;
+
+  constructor(suffix: TesterSuffix, path?: string){
+    this.suffix = suffix;
+    this.path = path || getFileNameBySuffix(suffix);
+    this.bin = `prg_${Math.floor(Math.random() * 0x1000).toString(16)}`;
+  }
+
   public abstract beforeAll: () => void;
   public abstract afterAll: () => void;
 
@@ -38,8 +50,8 @@ abstract class AbstractTester implements Tester {
   public spawn() {
     this.beforeAll();
     const { command, args } = this.getExecutionCommand();
-    spawn(command, args, {
-      stdio: 'inherit',
+    this.child = spawn(command, args, {
+      timeout: getTimeLimit(),
     });
   }
 
