@@ -1,20 +1,22 @@
 import { execSync } from 'child_process';
 
 import AbstractTester from './AbstractTester';
-import { getFileNameBySuffix } from './utils';
 
 class CPP extends AbstractTester {
   public beforeAll = () => {
-    execSync(`g++ -std=c++17 ${getFileNameBySuffix('.cpp')} -o program`);
+    if (!this.path) {
+      throw `[${this.suffix}] Path to source code not found.`;
+    }
+    execSync(`g++ -std=c++17 ${this.path} -o ${this.bin}`);
   }
 
   public afterAll = () => {
-    execSync('rm program');
+    execSync(`rm ${this.bin}`);
   }
 
   public getExecutionCommand = () => {
     return {
-      command: './program',
+      command: `./${this.bin}`,
       args: [],
     };
   }

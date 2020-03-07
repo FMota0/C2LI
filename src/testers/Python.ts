@@ -1,16 +1,18 @@
 import AbstractTester from './AbstractTester';
-import { getFileNameBySuffix } from './utils';
 
 class Python extends AbstractTester {
+  
   public beforeAll = () => null;
-
   public afterAll = () => null;
 
   public getExecutionCommand = () => {
+    if (!this.path) {
+      throw `[${this.suffix}] Path to source code not found.`;
+    }
     return {
       command: 'python',
       args: [
-        getFileNameBySuffix('.py')!,
+        this.path,
       ],
     };
   }

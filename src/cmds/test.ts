@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import cliTable from 'cli-table';
 import yargs from 'yargs';
 
-import testers from '../testers';
+import testerBuilder from '../testers';
 import { hasTests, readProblemTests } from '../utils';
 import { getTesterOption } from '../testers/utils';
 
@@ -54,7 +54,7 @@ export const handler = (
     console.log(`No tests in ${testsPath}`);
     return;
   }
-  const testerOpt = getTesterOption();
+  const testerOpt: TesterSuffix|undefined = getTesterOption();
   if (!testerOpt) {
     console.log(chalk.red('NO CODE FOUND'));
     return;
@@ -68,7 +68,7 @@ export const handler = (
       return;
     }
   }
-  const tester: Tester = testers[testerOpt];
+  const tester: Tester = testerBuilder(testerOpt);
   const tests: ProblemTests = readProblemTests(testsPath);
   tester.beforeAll();
   const results = tests.filter((e,i) => { //filtering unselected tests in case of flag passed

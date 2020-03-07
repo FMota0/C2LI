@@ -21,7 +21,16 @@ interface ExecutionResult extends ProblemTest {
   executionTime: number;
 }
 
+declare const enum TesterSuffix {
+  CPP = 'cpp',
+  PY = 'py'
+}
+
 interface Tester {
+  child: import('child_process').ChildProcess | null;
+  suffix: TesterSuffix;
+  path?: string;
+  bin: string;
   beforeAll: () => void;
   execute: (id: string, x: ProblemTest) => ExecutionResult;
   afterAll: () => void;
