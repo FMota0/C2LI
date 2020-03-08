@@ -14,5 +14,7 @@ export const handler = () => {
     return;
   }
   const tester: Tester = testerBuilder(testerOpt);
-  tester.spawn();
+  tester.spawn({
+    stdio: 'inherit',
+  });
 };

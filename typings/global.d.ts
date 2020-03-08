@@ -34,5 +34,5 @@ interface Tester {
   beforeAll: () => void;
   execute: (id: string, x: ProblemTest) => ExecutionResult;
   afterAll: () => void;
-  spawn: () => void;
+  spawn: (options: import('child_process').SpawnOptions) => void;
 }

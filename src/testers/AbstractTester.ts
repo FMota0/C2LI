@@ -1,4 +1,4 @@
-import { spawnSync, spawn, ChildProcess } from 'child_process';
+import { spawnSync, spawn, ChildProcess, SpawnOptions } from 'child_process';
 
 import { getTimeLimit } from '../conf';
 import { getFileNameBySuffix } from './utils';
@@ -47,12 +47,10 @@ abstract class AbstractTester implements Tester {
     };
   }
 
-  public spawn() {
+  public spawn(options: SpawnOptions) {
     this.beforeAll();
     const { command, args } = this.getExecutionCommand();
-    this.child = spawn(command, args, {
-      timeout: getTimeLimit(),
-    });
+    this.child = spawn(command, args, options);
   }
 
   public abstract getExecutionCommand: () => ExecutionCommand;
