@@ -43,13 +43,18 @@ export const handler = ({interactor, source, debug}: InteractArgs) => {
 
     interactorTester.child.stdout!.on('data', data => {
         if(debug){
-            console.log(chalk.gray(`[INTERACTOR] [${getSeconds()} s] ${data}`));
+            console.log(chalk.cyan(`[INTERACTOR] [${getSeconds()} s]\n${data}`));
         }
         sourceTester.child!.stdin!.write(data)
     });
+    interactorTester.child.stderr!.on('data', data => {
+        if (debug) {
+            console.log(chalk.yellow(`[INTERACTOR ERR] [${getSeconds()} s]\n${data}`));
+        }
+    })
     sourceTester.child.stdout!.on('data', data => {
         if(debug){
-            console.log(chalk.yellow(`[SOURCE] [${getSeconds()} s] ${data}`));
+            console.log(chalk.yellow(`[SOURCE] [${getSeconds()} s]\n${data}`));
         }
         interactorTester.child!.stdin!.write(data);
     });
