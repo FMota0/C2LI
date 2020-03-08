@@ -36,7 +36,7 @@
     "ts-node": "^8.0.2",
     "tslint": "^5.13.0",
     "typescript": "^3.3.3333",
-    "yargs": "^13.2.2"
+    "yargs": "^13.3.0"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.11",

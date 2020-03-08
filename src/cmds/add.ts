@@ -7,6 +7,7 @@ import {
   writeNewProblemsTest,
 } from '../utils';
 
+
 export const command: string = 'add';
 export const desc: string = 'add tests for a specific problem';
 

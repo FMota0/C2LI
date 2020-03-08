@@ -22,6 +22,11 @@ export const builder = (yargs: yargs.Argv) => {
             type: 'string',
             describe: 'Path to tests, by default the tests gonna be searched in current directory',
           },
+          e: {
+            alias: 'exactTests',
+            type: 'array',
+            describe: "Specify the exact tests you want to run, splitting their positions in spaces"
+          }
         });
 };
 
@@ -36,12 +41,14 @@ const LEAN_TABLE_CONFIG = {
 interface TestArgs {
   testsPath: string;
   lean: boolean;
+  exactTests: number[];
 }
 
 export const handler = (
     {
       testsPath,
       lean,
+      exactTests,
     }: TestArgs,
   ) => {
   if (!hasTests(testsPath)) {
@@ -53,8 +60,15 @@ export const handler = (
     console.log(chalk.red('NO CODE FOUND'));
     return;
   }
+  if (exactTests){
+    exactTests = exactTests.sort((a,b) => a-b);
+    if (exactTests[0] < 1){
+      console.log('You should only insert positive integers at the exact tests flag numbers');
+      return;
+    }
+  }
   const tester: Tester = testers[testerOpt];
-  const tests: ProblemTests = readProblemTests(testsPath);
+  const tests: ProblemTests = readProblemTests(testsPath, exactTests);
   tester.beforeAll();
   const results = tests.map((test: ProblemTest, i) => tester.execute(`${i}`, test));
   tester.afterAll();
