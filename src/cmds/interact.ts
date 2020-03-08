@@ -35,8 +35,8 @@ export const handler = ({interactor, source, debug}: InteractArgs) => {
     const sourceTester: Tester = testBuilder(sourceSuffix, source);
     const start = new Date().getTime();
     const getSeconds = () => (new Date().getTime() - start) / 1000;
-    interactorTester.spawn();
-    sourceTester.spawn();
+    interactorTester.spawn({});
+    sourceTester.spawn({});
     if(!interactorTester.child || !sourceTester.child){
         return;
     }
