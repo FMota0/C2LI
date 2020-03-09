@@ -37,20 +37,12 @@ export const hasTests = (path: string = './'): boolean => {
   return fs.existsSync(`${path}/${TESTS_FILE}`);
 };
 
-export const readProblemTests = (path: string = './', exactTests: number[] = []): ProblemTests => {
+export const readProblemTests = (path: string = './'): ProblemTests => {
   if (!hasTests(path)) {
     return [];
   }
   const raw = fs.readFileSync(`${path}/${TESTS_FILE}`, 'utf8');
   let tests = JSON.parse(raw) as ProblemTests;
-  if (exactTests.length > 0){
-    let refinedTests = [];
-    for (let i = 0; i < tests.length; i++){
-      if (exactTests.includes(i+1))
-        refinedTests.push(tests[i]);
-    }
-    tests = refinedTests;
-  }
   return tests;
 };
 
