@@ -50,9 +50,8 @@ export const readProblemTests = (path: string = './'): ProblemTests => {
   if (!hasTests(path)) {
     return [];
   }
-
   const raw = fs.readFileSync(`${path}/${TESTS_FILE}`, 'utf8');
-  const tests = JSON.parse(raw) as ProblemTests;
+  let tests = JSON.parse(raw) as ProblemTests;
   return tests;
 };
 
