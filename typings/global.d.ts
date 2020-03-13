@@ -22,17 +22,17 @@ interface ExecutionResult extends ProblemTest {
 }
 
 declare const enum TesterSuffix {
-  CPP = 'cpp',
-  PY = 'py'
+  CPP = "cpp",
+  PY = "py"
 }
 
 interface Tester {
-  child: import('child_process').ChildProcess | null;
+  child: import("child_process").ChildProcess | null;
   suffix: TesterSuffix;
   path?: string;
   bin: string;
   beforeAll: () => void;
   execute: (id: string, x: ProblemTest) => ExecutionResult;
   afterAll: () => void;
-  spawn: (options: import('child_process').SpawnOptions) => void;
+  spawn: (options: import("child_process").SpawnOptions) => void;
 }
