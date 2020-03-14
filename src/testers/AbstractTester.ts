@@ -51,6 +51,7 @@ abstract class AbstractTester implements Tester {
     this.beforeAll();
     const { command, args } = this.getExecutionCommand();
     this.child = spawn(command, args, options);
+    this.afterAll();
   }
 
   public abstract getExecutionCommand: () => ExecutionCommand;
