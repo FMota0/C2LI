@@ -1,19 +1,27 @@
 import chalk from 'chalk';
 
-import { getTesterOption } from '../testers/utils';
+import { getTesterOption, getFileValidSuffix } from '../testers/utils';
 import testerBuilder from '../testers';
 
-export const command: string = 'run';
+export const command: string = 'run [source]';
 
 export const desc: string = 'Run code';
 
-export const handler = () => {
-  const testerOpt = getTesterOption();
+interface RunArgs {
+  source: string;
+};
+
+export const handler = (
+  {
+    source
+  }: RunArgs
+) => {
+  const testerOpt = source ? getFileValidSuffix(source) : getTesterOption();
   if (!testerOpt) {
     console.log(chalk.red('NO CODE FOUND'));
     return;
   }
-  const tester: Tester = testerBuilder(testerOpt);
+  const tester: Tester = testerBuilder(testerOpt, source);
   tester.spawn({
     stdio: 'inherit',
   });

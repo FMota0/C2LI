@@ -4,9 +4,9 @@ import yargs from 'yargs';
 
 import testerBuilder from '../testers';
 import { hasTests, readProblemTests } from '../utils';
-import { getTesterOption } from '../testers/utils';
+import { getTesterOption, getFileValidSuffix } from '../testers/utils';
 
-export const command: string = 'test [tester]';
+export const command: string = 'test [source]';
 export const desc: string = 'Test code against samples';
 export const builder = (yargs: yargs.Argv) => {
   return yargs
@@ -38,6 +38,7 @@ const LEAN_TABLE_CONFIG = {
 };
 
 interface TestArgs {
+  source: string;
   testsPath: string;
   lean: boolean;
   ids: number[];
@@ -45,6 +46,7 @@ interface TestArgs {
 
 export const handler = (
     {
+      source,
       testsPath,
       lean,
       ids,
@@ -54,13 +56,13 @@ export const handler = (
     console.log(`No tests in ${testsPath}`);
     return;
   }
-  const testerOpt: TesterSuffix|undefined = getTesterOption();
+  const testerOpt: TesterSuffix|undefined = source ? getFileValidSuffix(source) : getTesterOption();
   if (!testerOpt) {
     console.log(chalk.red('NO CODE FOUND'));
     return;
   }
   let shouldSelectTests = false;
-  if (ids.length > 0){
+  if (ids && ids.length > 0){
     shouldSelectTests = true;
     ids = ids.sort((a,b) => a-b);
     if (ids[0] < 0){
@@ -68,7 +70,7 @@ export const handler = (
       return;
     }
   }
-  const tester: Tester = testerBuilder(testerOpt);
+  const tester: Tester = testerBuilder(testerOpt, source);
   const tests: ProblemTests = readProblemTests(testsPath);
   tester.beforeAll();
   const results = tests.filter((e,i) => { //filtering unselected tests in case of flag passed
