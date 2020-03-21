@@ -87,6 +87,7 @@ export const handler = async (
     head.push('Input');
     head.push('Expected output');
     head.push('Your output');
+    head.push('Stderr');
   }
   const table = new cliTable(
     {
@@ -110,6 +111,7 @@ export const handler = async (
       line.push(result.input);
       line.push(result.output || '');
       line.push(result.executionOutput);
+      line.push(result.stderr);
     }
     table.push(line);
   });

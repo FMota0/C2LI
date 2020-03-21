@@ -40,13 +40,12 @@ abstract class AbstractTester implements Tester {
           runtimeError = true;
         }
         resolve({
+          ...test,
           timedOut,
           runtimeError,
-          id: test.id,
           executionTime,
-          input: test.input,
-          output: test.output,
           executionOutput: result.stdout.toString(),
+          stderr: result.stderr.toString(),
         });
       } catch (e) {
         reject(e);

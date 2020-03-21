@@ -20,6 +20,7 @@ interface ExecutionResult extends ProblemTest {
   timedOut: boolean;
   runtimeError: boolean;
   executionTime: number;
+  stderr: string,
 }
 
 declare const enum TesterSuffix {
