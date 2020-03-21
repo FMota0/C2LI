@@ -19,7 +19,7 @@ interface CompileArgs {
   source: string;
 }
 
-export const handler = (
+export const handler = async (
   {
     source,
   }: CompileArgs,

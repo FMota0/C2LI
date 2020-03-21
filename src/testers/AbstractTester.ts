@@ -2,7 +2,6 @@ import { spawnSync, spawn, ChildProcess, SpawnOptions } from 'child_process';
 
 import { getTimeLimit } from '../conf';
 import { getFileNameBySuffix } from './utils';
-import chalk from 'chalk';
 
 abstract class AbstractTester implements Tester {
   public child: ChildProcess | null = null;
@@ -56,33 +55,14 @@ abstract class AbstractTester implements Tester {
   }
 
   public async executeAll(tests: ProblemTests): Promise<Array<ExecutionResult>> {
-    try {
-      this.beforeAll();
-    } catch (e) {
-      console.log(chalk.red('COMPILATION ERROR'));
-      console.log(chalk.redBright(e.message));
-      return [];
-    }
-    try {
-      const results = await Promise.all(tests.map(t => this.execute(t)));
-      this.afterAll();
-      return results;
-    } catch (e) {
-      console.log(chalk.red('ERROR'));
-      console.log(e);
-    }
+    this.beforeAll();
+    const results = await Promise.all(tests.map(t => this.execute(t)));
     this.afterAll();
-    return [];
+    return results;
   }
 
   public spawn(options: SpawnOptions) {
-    try {
-      this.beforeAll();
-    } catch (e) {
-      console.log(chalk.red('COMPILATION ERROR'));
-      console.log(chalk.redBright(e.message));
-      return;
-    }
+    this.beforeAll();
     const { command, args } = this.getExecutionCommand();
     this.child = spawn(command, args, options);
     this.afterAll();

@@ -11,7 +11,7 @@ interface RunArgs {
   source: string;
 };
 
-export const handler = (
+export const handler = async (
   {
     source
   }: RunArgs
