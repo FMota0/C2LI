@@ -52,7 +52,10 @@ export const readProblemTests = (path: string = './'): ProblemTests => {
   }
   const raw = fs.readFileSync(`${path}/${TESTS_FILE}`, 'utf8');
   let tests = JSON.parse(raw) as ProblemTests;
-  return tests;
+  return tests.map((test, id) => ({
+    ...test,
+    id,
+  }));
 };
 
 export const addProblemTest = (problemTests:ProblemTests, newTest:ProblemTest) => {

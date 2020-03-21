@@ -44,7 +44,7 @@ interface TestArgs {
   ids: number[];
 }
 
-export const handler = (
+export const handler = async (
     {
       source,
       testsPath,
@@ -72,16 +72,12 @@ export const handler = (
   }
   const tester: Tester = testerBuilder(testerOpt, source);
   const tests: ProblemTests = readProblemTests(testsPath);
-  tester.beforeAll();
-  const results = tests.filter((e,i) => { //filtering unselected tests in case of flag passed
-    if (shouldSelectTests)
-      return ids.includes(i)  
-    return true
-    })
-    .map((test: ProblemTest, i) => {
-      return tester.execute(`${i}`, test)
-    });
-  tester.afterAll();
+  const results = await tester.executeAll(
+    tests.filter((test, i) => !shouldSelectTests || ids.includes(test.id || i))
+  );
+  if (!results.length) {
+    return;
+  }
   const head = [
     'Test',
     'Verdict',
@@ -109,7 +105,7 @@ export const handler = (
     } else if (result.executionOutput.trim() !== result.output.trim()) {
       verdict = chalk.red('Incorrect');
     }
-    const line = [`#${i}`, verdict, result.executionTime];
+    const line = [`#${result.id || i}`, verdict, result.executionTime];
     if (!lean) {
       line.push(result.input);
       line.push(result.output || '');
