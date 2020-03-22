@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace pre-test command with compile command
 - Better handling of compilation error
 - Async execution of tests (Small improvement in execution of multiple testcases)
+- Keep fetching for contest problems until some is found
 
 ## [0.2.0] - 2019-09-20
 
