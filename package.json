@@ -1,6 +1,6 @@
 {
   "name": "c2li",
-  "version": "0.2.0",
+  "version": "1.0.0-beta",
   "description": "",
   "main": "src/app.ts",
   "scripts": {
@@ -48,7 +48,7 @@
     "@types/yargs": "^12.0.11",
     "tslint-config-airbnb": "^5.11.1"
   },
-  "publishConfig": { 
-    "registry": "https://npm.pkg.github.com/" 
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
