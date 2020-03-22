@@ -1,4 +1,5 @@
 interface ProblemTest {
+  id?: number;
   input: string;
   output?: string;
 }
@@ -19,6 +20,7 @@ interface ExecutionResult extends ProblemTest {
   timedOut: boolean;
   runtimeError: boolean;
   executionTime: number;
+  stderr: string,
 }
 
 declare const enum TesterSuffix {
@@ -32,7 +34,8 @@ interface Tester {
   path?: string;
   bin: string;
   beforeAll: () => void;
-  execute: (id: string, x: ProblemTest) => ExecutionResult;
+  execute: (x: ProblemTest) => Promise<ExecutionResult>;
+  executeAll: (tests: ProblemTests) => Promise<Array<ExecutionResult>>;
   afterAll: () => void;
   spawn: (options: import("child_process").SpawnOptions) => void;
 }

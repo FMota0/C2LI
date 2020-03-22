@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Generate template code for each problem
+- Execute only selected tests
+- Add interact command
+- Allow user to choose which source file to be tested
+- Replace pre-test command with compile command
+- Better handling of compilation error
+- Async execution of tests (Small improvement in execution of multiple testcases)
+
 ## [0.2.0] - 2019-09-20
 
 ## [0.1.1] - 2019-05-30

@@ -18,33 +18,46 @@ abstract class AbstractTester implements Tester {
   public abstract beforeAll: () => void;
   public abstract afterAll: () => void;
 
-  public execute(_: string, test: ProblemTest): ExecutionResult {
-    const start = new Date().getTime();
-    const { command, args } = this.getExecutionCommand();
-    const result = spawnSync(command, args, {
-      input: test.input,
-      timeout: getTimeLimit(),
-    });
-    const end = new Date().getTime();
-    const executionTime = (end - start) / 1000;
-    let timedOut = false;
-    let runtimeError = false;
-    if (result.error) {
-      // @ts-ignore
-      if (result.error.code === 'ETIMEDOUT') {
-        timedOut = true;
+  public execute(test: ProblemTest): Promise<ExecutionResult> {
+    return new Promise((resolve, reject) => {
+      const start = new Date().getTime();
+      const { command, args } = this.getExecutionCommand();
+      try {
+        const result = spawnSync(command, args, {
+          input: test.input,
+          timeout: getTimeLimit(),
+        });
+        const end = new Date().getTime();
+        const executionTime = (end - start) / 1000;
+        let timedOut = false;
+        let runtimeError = false;
+        if (result.error) {
+          // @ts-ignore
+          if (result.error.code === 'ETIMEDOUT') {
+            timedOut = true;
+          }
+        } else if (result.status !== 0) {
+          runtimeError = true;
+        }
+        resolve({
+          ...test,
+          timedOut,
+          runtimeError,
+          executionTime,
+          executionOutput: result.stdout.toString(),
+          stderr: result.stderr.toString(),
+        });
+      } catch (e) {
+        reject(e);
       }
-    } else if (result.status !== 0) {
-      runtimeError = true;
-    }
-    return {
-      timedOut,
-      runtimeError,
-      executionTime,
-      input: test.input,
-      output: test.output,
-      executionOutput: result.stdout.toString(),
-    };
+    });
+  }
+
+  public async executeAll(tests: ProblemTests): Promise<Array<ExecutionResult>> {
+    this.beforeAll();
+    const results = await Promise.all(tests.map(t => this.execute(t)));
+    this.afterAll();
+    return results;
   }
 
   public spawn(options: SpawnOptions) {
