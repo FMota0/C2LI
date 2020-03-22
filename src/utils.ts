@@ -85,3 +85,5 @@ export const handleInvalidContestId = (contestId: string | undefined) => {
     process.exit(0);
   }
 };
+
+export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import { sleep } from '../utils';
 
 abstract class Parser {
   baseUrl: string = '';
@@ -8,8 +9,12 @@ abstract class Parser {
   public abstract parseProblem: (problemId: string, contestId?: string) => Promise<ProblemTests>;
   public async parseContest(contestId: string): Promise<ContestTests> {
     console.log(`Start to parse ${contestId}`);
-    const problemIds: string[] = await this.getContestProblems(contestId);
-    console.log(`Found ${problemIds.length} problems`);
+    let problemIds: string[]; 
+    do {
+      await sleep(2500); // try to fetch every 2.5 seconds
+      problemIds = await this.getContestProblems(contestId);
+      console.log(`Found ${problemIds.length} problems`);
+    } while(problemIds.length == 0);
     const problemsPromises = problemIds.map((problemId) => {
       return new Promise<[ProblemTests, ProblemId]>(
         (resolve, reject) => {
